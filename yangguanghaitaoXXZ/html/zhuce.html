@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="../css/zhuce.css" />
+	</head>
+	<body>
+		<!-- 注册页面头部样式 -->
+		<header id = "headerwrap">
+			<div id = "header">
+				<div id = "header_logo">
+					<div id = "header_logo_left">
+						<a href="index.html">
+							<img src="../zhuce_imgs/logo.gif">
+						</a>
+					</div>
+					<div id = "header_logo_right">
+						<p>欢迎注册</p>
+					</div>
+				</div>
+				<div id = "header_bottom">
+					<span>我已注册，现在就去<a href="denglu.html">登录</a></span>
+				</div>
+			</div>
+		</header>
+		
+		<!-- 注册页面内容样式 -->
+		<section id = "sectionwrap">
+			<div id = "section">
+				<div id = "zhuce">
+						<div id = "form_ema">
+							<i>邮箱</i><input id = "uema" type="text" value=""><span></span>
+						</div>
+						<div id = "form_pwd">
+							<i>密码</i><input id = "upwd" type="text" value=""><span></span>
+						</div>
+						<div id = "form_qpwd">
+							<i>确认密码</i><input id = "uqpwd" type="text" value=""><span></span>
+						</div>
+						<div id = "form_name">
+							<i>真实姓名</i><input id = "uname" type="text" value=""><span></span>
+						</div>
+						<div id = "form_sex">
+							<i>性别</i><input id = "uman" type="radio" name = "man" value="" checked="checked">男士&nbsp;
+							<input type="radio" name = "man" value="">女士 <span></span>
+						</div>
+						<div id = "form_day">
+							<i>生日</i><input id = "uday" type="text" value=""><span></span>
+						</div>
+						<div id = "form_yzm">
+							<i>图形验证码</i><input id = "uyzm" type="text" value="">
+							<div id = "yzm" style=" background:url(../zhuce_imgs/1.png) -10px -15px;font-style: italic; border: 1px solid black;display: inline-block;"></div>
+							<span>看不清？<a id = "btn" href="javascript:;">换一张</a></span>
+							<span class = "con"></span>
+						</div>
+						<div id = "form_agree">
+							<input id = "ucheck" type="checkbox" checked="checked" >&nbsp;&nbsp;
+							我已阅读并同意&nbsp;<a herf="javascript:;">会员注册协议</a>
+						</div>
+						<div id = "form_ck">
+							<input id = "button" type="submit" value="立即注册">
+						</div>
+				</div>
+			</div>
+		</section>
+		<footer id = "footerwrap">
+			<div id = "footer">
+				<div id = "footer_top">
+					<a herf="javascript:;">Hisshop网店系统</a>
+				</div>
+				<div id="footer_center">
+					<ul>
+						<li><a herf="javascript:;">关于海淘</a></li>
+						<li><a herf="javascript:;">商务合作</a></li>
+						<li><a herf="javascript:;">帮助中心</a></li>
+						<li><a herf="javascript:;">联系我们</a></li>
+						<li><a herf="javascript:;">网站地图</a></li>
+					</ul>
+				</div>
+				<div id="footer_bottom">
+					Copyright © 2012--2017 i-sunny.cn 版权所有 | 京ICP备11003669号-1 | 内容举报：kefu@i-sunny.cn
+				</div>
+			</div>
+		</footer>
+	</body>
+</html>
+<script src="../js/public.js"></script>
+<script src="../js/cookie.js"></script>
+<script src="../js/jquery-1.11.1.js"></script>
+<script src="../js/zhuce.js"></script>

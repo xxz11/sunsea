@@ -1,0 +1,2955 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="renderer" content="webkit" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script type="text/javascript" src="/utility/jquery-1.8.3.min.js?v=3.0"></script>
+    <script language="javascript" type="text/javascript"> 
+            var skinPath = "/templates/pccommon";
+            var HasWapRight = true;
+            var IsOpenStores = true;
+            var IsOpenReferral = 1;
+            var HasVshopRight = true;
+            var ImageServerUrl="";
+  var ImageUploadPath="/admin/UploadHandler.ashx?action=newupload";
+        </script>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta http-equiv="content-language" content="zh-CN" />
+<link rel="icon" type="image/x-icon" href="http://www.i-sunny.cn/Favicon.ico" media="screen" />
+<link rel="shortcut icon" type="image/x-icon" href="http://www.i-sunny.cn/Favicon.ico" media="screen" />
+<meta name="author" content="Hishop development team" />
+<meta name="GENERATOR" content="3.2" />
+
+<script language='javascript' type='text/javascript'>
+$(document).ready(function(){
+$('embed').each(function () {
+            if (!$(this).attr('src')) {
+                $('embed').each(function () {
+                    if (!$(this).attr('src')) {
+                        $(this).attr('src', $(this).attr('data-url'));
+                        var newembed = $(this).clone();
+                        $(this).parent().append(newembed);
+                        $(this).remove();
+                    }
+                });
+
+                $('iframe').each(function () {
+                    if (!$(this).attr('src')) {
+                        $('iframe').each(function () {
+                            if (!$(this).attr('src')) {
+                                $(this).attr('src', $(this).attr('data-url'));
+                            }
+                        });
+                    }
+                });
+            }
+        });
+})            
+</script>
+
+
+    <script type="text/javascript">
+        //如果是网站首页直接跳转到WAP端首页，如果是其它页面，且该页面对应WAP端有相应的页面对直接中转到对应的WAP页面，如果没有则不跳转
+        var pageurl = document.location.href.toLowerCase();
+        var sUserAgent = navigator.userAgent.toLowerCase();
+        var bIsIpad = sUserAgent.match(/ipad/i) == "ipad";
+        var bIsIphoneOs = sUserAgent.match(/iphone os/i) == "iphone os";
+        var bIsMidp = sUserAgent.match(/midp/i) == "midp";
+        var bIsUc7 = sUserAgent.match(/rv:1.2.3.4/i) == "rv:1.2.3.4";
+        var bIsUc = sUserAgent.match(/ucweb/i) == "ucweb";
+        var bIsAndroid = sUserAgent.match(/android/i) == "android";
+        var bIsCE = sUserAgent.match(/windows ce/i) == "windows ce";
+        var bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile";
+        var bIsWX = sUserAgent.match(/micromessenger/i) == "micromessenger";
+        //bIsWM = true;
+
+        if ((bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM || bIsWX) && (HasWapRight || HasVshopRight)) {
+            //解决分享到微信时，浏览器跳转到网站首页的问题
+            DirectUrl = GetWapUrl();
+            if (DirectUrl != "") {
+                if (bIsWX && HasVshopRight)
+                    location.href = "/vShop/" + DirectUrl;
+                else if (HasWapRight)
+                    location.href = "/Wapshop/" + DirectUrl;
+            }
+        }
+        ///判断是否需要跳转，如果当前页面为首页或者帮助页，文单页则跳转，其它的不需要跳转
+        function IsDirect() {
+
+            if (pageurl.indexOf("/default.aspx") > -1) return true;
+            if (pageurl.indexOf("/article/") >= -1 && pageurl.indexOf("/help/") >= -1) return false;
+            return true;
+        }
+        ///获取PC端对应Wap端的页面地址，如果没有对应地址则返回空
+        function GetWapUrl() {
+            var PageKey = "";
+            var port = document.location.port;
+            var domain = document.domain;
+            var param = document.location.search;
+            if (port != "80" && port != "") domain = domain + ":" + port;
+            domain = document.location.protocol + "//" + domain;
+            if ((pageurl.length == domain.length || (pageurl.length - 1) == domain.length) && pageurl.indexOf(domain) == 0) { return "default.aspx"; }
+            pageurl = pageurl.replace(domain.toLowerCase(), "");
+            if (pageurl.indexOf("/default") > -1) { return "/default"; }
+            if (pageurl.indexOf("/groupbuyproductdetails") > -1) { return "groupbuyproductdetails" + param }
+            if (pageurl.indexOf("/countdownproductsdetails") > -1) { return "countdownproductsdetails" + param }
+            if (pageurl.indexOf("/product_detail") > -1) { return "ProductDetails?productId=" + pageurl.replace("/product_detail/", "").replace(param.toLowerCase(), "") + param.replace("?", "&"); }
+            if (pageurl.indexOf("/productdetails") > -1) { return "ProductDetails" + param; }
+            if (pageurl.indexOf("/presaleproductdetails") > -1) { return "presaleproductdetails" + pageurl.replace("/presaleproductdetails", ""); }
+            if (pageurl.indexOf("/brand_detail") > -1) { return "BrandDetail?brandId=" + pageurl.replace("/brand/brand_detail/", ""); }
+            if (pageurl.indexOf("/brand") > -1) { return "brandlist" + pageurl.replace("/brand", ""); }
+            if (pageurl.indexOf("/browse/category") > -1) { return "ProductList?categoryId=" + pageurl.replace("/browse/category/", ""); }
+            if (pageurl.indexOf("/category") > -1) { return "productsearch"; }
+            if (pageurl.indexOf("/subcategory") > -1) { return "ProductList" + pageurl.replace("/subcategory", ""); }
+            if (pageurl.indexOf("/groupbuyproducts") > -1) { return "GroupBuyList"; }
+            if (pageurl.indexOf("/countdownproducts") > -1) { return "CountDownProducts"; }
+            if (pageurl.indexOf("/login") > -1) { return "login"; }
+            if (pageurl.indexOf("userdefault") > -1) { return "MemberCenter.aspx"; }
+            if (pageurl.indexOf("userorders") > -1) { return "MemberOrders.aspx"; }
+            if (pageurl.indexOf("usershippingaddresses") > -1) { return "ShippingAddresses.aspx" }
+            if (pageurl.indexOf("user/referralregisteragreement") > -1) { return "ReferralRegisterAgreement.aspx"; }
+            if (pageurl.indexOf("user/referralregisterresults") > -1) { return "referralregisterresults"; }
+            if (pageurl.indexOf("/user/") > -1) { return "MemberCenter.aspx"; }
+            if (pageurl.indexOf("articles") > -1) { return "Articles.aspx" + param; }
+            if (pageurl.indexOf("articledetails") > -1) { return "ArticleDetails" + param; }
+            if (pageurl.indexOf("storeappdownload") > -1) { return ""; }
+            if (pageurl.indexOf("appdownload") > -1) { return "appdownload"; }
+            if (pageurl.indexOf("registeredcoupons") > -1) { return "registeredcoupons"; }//解决扫码登录无法跳转的bug
+            if (pageurl.indexOf("referralagreement") > -1) { return "ReferralAgreement" + param; }
+            if (pageurl.indexOf("register") > -1) { return "login?action=register"; }
+            if (pageurl.indexOf("/un_product_detail") > -1) { return "ProductDetails?productId=" + pageurl.replace("/un_product_detail/", "").replace(param.toLowerCase(), "") + param.replace("?", "&"); }
+            return "";
+        }
+
+
+        function GetPageKey(pagepre, IsEnd) {
+            if (pageurl.indexOf(pagepre) > -1) {
+                var endIndex = 0;
+                if (!IsEnd) {
+                    endIndex = pageurl.indexOf(".aspx");
+                    if (endIndex <= -1) endIndex = pageurl.indexOf(".htm")
+                }
+                else {
+                    endIndex = pageurl.length;
+                }
+                var startIndex = pageurl.indexOf(pagepre) + pagepre.length;
+                if (startIndex >= 0 && endIndex > startIndex)
+                    return pageurl.substring(startIndex, endIndex);
+            }
+            return "0";
+        }</script>
+    <title>德国 奶粉 特福芬 T&amp;#246;fer 3段 600g - 阳光海淘</title>
+
+    <meta name="description" content="阳光海淘-限时特卖商城_正品低价_海外直采_海外直邮，阳光海淘为亿万中国用户提供进口奶粉、进口母婴、进口美食、进口美妆、服饰等品牌用品。100%正品，安全放心，更多产品正陆续推出。" />
+<meta name="keywords" content="阳光海淘,海淘,跨境购,代购,进口,跨境电商,海外直邮,跨境电商" />
+
+    <script type="text/javascript" defer="defer" src="/Utility/icheck/icheck.min.js"></script>
+    <script type="text/javascript" src="/templates/pccommon/script/nav.js"></script>
+    <script type="text/javascript" src="/utility/globals.js?v=3.0"></script>
+    <script type="text/javascript" src="/utility/region.helper.js?v=3.0"></script>
+    <script type="text/javascript" src="/utility/traffic.js?v=3.0"></script>
+    <link rel="stylesheet" type="text/css" href="/Admin/css/bootstrap.min.css?v=3.0" />
+    <link rel="stylesheet" href="/templates/pccommon/style/nav.css?v=3.0" type="text/css" media="" />
+    <link rel="stylesheet" href="/templates/pccommon/style/style.css?v=3.0" type="text/css" media="" />
+    <link rel="stylesheet" href="/templates/master/default/style//menu.css?v=3.0" type="text/css" media="" />
+    <link href="/Utility/iconfont/iconfont.css?v=3.0" rel="Stylesheet" />
+    <link rel="stylesheet" href="/templates/pccommon/style/region.css?v=3.0" type="text/css" media="" />
+    <script type="text/javascript" defer="defer" src="/Utility/windows.js?v=3.0"></script>
+    <link href="/Admin/css/windows.css?v=3.0" rel="stylesheet" />
+    <link rel="stylesheet" href="/templates/master/default/style//home.css?v=3.0" type="text/css" media="" />
+    <script type='text/javascript'>
+                                    var homePageTopicId = 0;
+                                    (function (m, ei, q, i, a, j, s) {
+                                        m[a] = m[a] || function () {
+                                            (m[a].a = m[a].a || []).push(arguments)
+                                        };
+                                        j = ei.createElement(q),
+                                            s = ei.getElementsByTagName(q)[0];
+                                        j.async = true;
+                                        j.charset = 'UTF-8';
+                                        j.src = i;
+                                        s.parentNode.insertBefore(j, s)
+                                    })(window, document, 'script', '//eco-api.meiqia.com/dist/meiqia.js', '_MEIQIA');
+                                    _MEIQIA('entId', 57433);
+                                    _MEIQIA('metadata', { 
+                                                address: '', // 地址
+                                                age: '', // 年龄
+                                                comment: '', // 备注
+                                                email: '', // 邮箱
+                                                gender: '保密', // 性别
+                                                name: 'Anonymous', // 名字
+                                                qq: '', // QQ
+                                                tel: '', // 电话
+                                                weibo: '', // 微博
+                                                weixin: '', // 微信 
+                                                '会员等级': '',
+                                                'MSN': '',
+                                                '旺旺': '',
+                                                '账号创建时间': '' 
+                                    });
+                                </script>
+    <link href="/templates/master/default/plugins/jquery.cxscroll-1.2.2/css/layout.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/admin/css/bootstrap-datetimepicker.css?v=3.0" type="text/css" media="screen" />
+    <script type="text/javascript" src="/admin/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="/admin/js/bootstrap-datetimepicker.zh-CN.js"></script>
+
+</head>
+<style>
+    * {
+        box-sizing: content-box;
+    }
+</style>
+
+
+
+<body>
+    
+    <div id="header" class="top">
+        <div class="top-w">
+            <div class="top-main">
+                <div class="header_top1">
+                    <div class="fl">
+                        您好，欢迎光临阳光海淘
+                    </div>
+                    <div class="fr top1_r">
+                        <ul>
+                            <li>
+                                <a id="ProductDetails_ctl00___linkMyAccount" href="/Register">注册</a></li>
+                            <li id="liLinkLogin">
+                                <a href="/User/login?ReturnUrl=/product_detail/991">登录</a><input type="hidden" id="hidIsLogin" value="0"/><a href="/OpenId/RedirectLogin.aspx?ot=hishop.plugins.openid.qq.qqservice"><img src="/plugins/openid/images/hishop.plugins.openid.qq.qqservice2.gif" alt="QQ共享登录" /> </a><a href="/OpenId/RedirectLogin.aspx?ot=hishop.plugins.openid.weixin.weixinservice"><img src="/plugins/openid/images/hishop.plugins.openid.weixin.weixinservice2.gif" alt="微信扫码登录" /> </a></li>
+                            <li class="fore3">
+                                <div class="cw-icon"><em><a href="javascript:;">微信商城</a><i><img src="/templates/master/default/images/jiantou_03.png"></i></em></div><div class="dorpdown-layer"><img src="/Storage/master/QRCode/www.i-sunny.cn_vshop.png" /></div>
+                            </li>
+                            <li>
+                                </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="top-search clearfix">
+            <div class="logo">
+                <div class="logo cssEdite" type="logo" id="logo_1" >
+<a href="/">
+<img src="/utility/pics/201712261303474611260.gif" />
+</a>
+</div>
+
+            </div>
+            <div class="search-box">
+
+                
+<div class="search1">
+<input type="text" id="txt_Search_Keywords" class="search" placeholder="" />
+<input type="button" value="搜 索" onclick="searchs()" class="btn1" />
+</div>
+<div class="hot-key">
+    <em class="fl block">热门关键字：</em>
+    <ul class="keyword cssEdite" type="keyword" id="comments_4" >
+</ul>
+
+</div>
+<script type="text/javascript">
+    function searchs() {
+        var item = $("#drop_Search_Class").val();
+        var key = $("#txt_Search_Keywords").val();
+        if (key == undefined)
+            key = "";
+
+        key = key.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        var url = "/SubCategory?keywords=" + encodeURIComponent(key);
+        if (item != undefined)
+            url += "&categoryId=" + item;
+        window.location.href = url;
+    }
+
+    $(document).ready(function () {
+        $('#txt_Search_Keywords').keydown(function (e) {
+            if (e.keyCode == 13) {
+                searchs();
+                return false;
+            }
+        })
+    });
+
+</script>
+
+            </div>
+            <div class="cart-box">
+                <a href="/ShoppingCart.aspx">
+                    <span>购物车<em id='spanCartNum'>0</em>件</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="top-nav">
+            <div class="nav-wrap">
+                <div class="side-nav">
+                    <ul class="clearfix">
+                        <li id="liall">
+                            <h3 class="title"><a href="/SubCategory">全部商品分类</a>
+                            </h3>
+                        </li>
+                        <li><a href="/"><span>首页</span></a></li>
+                        
+        <li class="abc"><a  href='/browse/category/1'><span>母婴专区</span></a>
+        <ul>
+            
+                    <li> 
+                        <h3><a   href='/browse/category/8'>尿裤湿巾</a></h3>
+                          <div>
+                            
+                                 <a href='/browse/category/9'>NB</a> 
+                            
+                                 <a href='/browse/category/10'>S</a> 
+                            
+                                 <a href='/browse/category/11'>M</a> 
+                            
+                                 <a href='/browse/category/12'>L</a> 
+                            
+                                 <a href='/browse/category/13'>XL</a> 
+                            
+                                 <a href='/browse/category/14'>XXL</a> 
+                            
+                                 <a href='/browse/category/15'>拉拉裤</a> 
+                            
+                                 <a href='/browse/category/16'>花王</a> 
+                            
+                                 <a href='/browse/category/17'>大王</a> 
+                            
+                                 <a href='/browse/category/18'>尤妮佳</a> 
+                            
+			            </div>		
+                    </li>
+                
+                    <li> 
+                        <h3><a   href='/browse/category/19'>婴儿用品</a></h3>
+                          <div>
+                            
+                                 <a href='/browse/category/20'>宝宝小药</a> 
+                            
+                                 <a href='/browse/category/21'>洗漱护肤</a> 
+                            
+                                 <a href='/browse/category/22'>喂养工具</a> 
+                            
+                                 <a href='/browse/category/23'>宝宝出行</a> 
+                            
+                                 <a href='/browse/category/24'>清洁消毒</a> 
+                            
+                                 <a href='/browse/category/25'>益智玩具</a> 
+                            
+			            </div>		
+                    </li>
+                
+                    <li> 
+                        <h3><a   href='/browse/category/26'>品牌奶粉</a></h3>
+                          <div>
+                            
+                                 <a href='/browse/category/27'>特福芬</a> 
+                            
+                                 <a href='/browse/category/28'>喜宝</a> 
+                            
+                                 <a href='/browse/category/29'>爱他美</a> 
+                            
+                                 <a href='/browse/category/36'>贝唯他</a> 
+                            
+                                 <a href='/browse/category/37'>雀巢BEBA</a> 
+                            
+                                 <a href='/browse/category/38'>米路米Milumil</a> 
+                            
+			            </div>		
+                    </li>
+                
+                    <li> 
+                        <h3><a   href='/browse/category/30'>营养辅食</a></h3>
+                          <div>
+                            
+                                 <a href='/browse/category/31'>辅食泥</a> 
+                            
+                                 <a href='/browse/category/32'>米粉/米糊</a> 
+                            
+                                 <a href='/browse/category/33'>营养品</a> 
+                            
+                                 <a href='/browse/category/34'>饼干</a> 
+                            
+                                 <a href='/browse/category/35'>其他零食</a> 
+                            
+			            </div>		
+                    </li>
+                
+                    <li> 
+                        <h3><a   href='/browse/category/39'>阶段奶粉</a></h3>
+                          <div>
+                            
+                                 <a href='/browse/category/40'>Pre段</a> 
+                            
+                                 <a href='/browse/category/41'>1段</a> 
+                            
+                                 <a href='/browse/category/42'>2段</a> 
+                            
+                                 <a href='/browse/category/43'>3段</a> 
+                            
+                                 <a href='/browse/category/44'>4段</a> 
+                            
+                                 <a href='/browse/category/45'>1+段</a> 
+                            
+                                 <a href='/browse/category/46'>2+段</a> 
+                            
+			            </div>		
+                    </li>
+                  
+        </ul>
+        </li>
+    
+        <li class="abc"><a  href='/browse/category/2'><span>美妆个护</span></a>
+        <ul>
+            
+                    <li> 
+                        <h3><a   href='/browse/category/47'>香水彩妆</a></h3>
+                          <div>
+                            
+                                 <a href='/browse/category/52'>口红</a> 
+                            
+                                 <a href='/browse/category/53'>眼线</a> 
+                            
+                                 <a href='/browse/category/54'>遮瑕膏（液）</a> 
+                            
+                                 <a href='/browse/category/55'>腮红</a> 
+                            
+                                 <a href='/browse/category/56'>粉底</a> 
+                            
+                                 <a href='/browse/category/57'>眼影</a> 
+                            
+                                 <a href='/browse/category/58'>BB霜</a> 
+                            
+			            </div>		
+                    </li>
+                
+                    <li> 
+                        <h3><a   href='/browse/category/48'>面部护肤</a></h3>
+                          <div>
+                            
+                                 <a href='/browse/category/59'>面膜</a> 
+                            
+                                 <a href='/browse/category/60'>洁面</a> 
+                            
+                                 <a href='/browse/category/61'>面霜</a> 
+                            
+                                 <a href='/browse/category/62'>精华</a> 
+                            
+                                 <a href='/browse/category/63'>化妆水</a> 
+                            
+                                 <a href='/browse/category/64'>眼霜</a> 
+                            
+                                 <a href='/browse/category/65'>润唇膏</a> 
+                            
+                                 <a href='/browse/category/66'>其他</a> 
+                            
+			            </div>		
+                    </li>
+                
+                    <li> 
+                        <h3><a   href='/browse/category/49'>身体护理</a></h3>
+                          <div>
+                            
+                                 <a href='/browse/category/67'>护手霜</a> 
+                            
+                                 <a href='/browse/category/68'>沐浴乳</a> 
+                            
+                                 <a href='/browse/category/69'>身体乳</a> 
+                            
+			            </div>		
+                    </li>
+                
+                    <li> 
+                        <h3><a   href='/browse/category/50'>口腔护理</a></h3>
+                          <div>
+                            
+                                 <a href='/browse/category/70'>牙刷</a> 
+                            
+                                 <a href='/browse/category/71'>牙膏</a> 
+                            
+                                 <a href='/browse/category/72'>替换物</a> 
+                            
+                                 <a href='/browse/category/73'>漱口水</a> 
+                            
+                                 <a href='/browse/category/74'>口罩</a> 
+                            
+			            </div>		
+                    </li>
+                
+                    <li> 
+                        <h3><a   href='/browse/category/51'>女性护理</a></h3>
+                          <div>
+                            
+                                 <a href='/browse/category/75'>卫生巾</a> 
+                            
+                                 <a href='/browse/category/76'>Facelle</a> 
+                            
+                                 <a href='/browse/category/77'>Jessa</a> 
+                            
+			            </div>		
+                    </li>
+                  
+        </ul>
+        </li>
+    
+        <li class="abc"><a  href='/browse/category/3'><span>数码家电</span></a>
+        <ul>
+              
+        </ul>
+        </li>
+    
+        <li class="abc"><a  href='/browse/category/4'><span>家居日用</span></a>
+        <ul>
+              
+        </ul>
+        </li>
+    
+        <li class="abc"><a  href='/browse/category/5'><span>环球美食</span></a>
+        <ul>
+              
+        </ul>
+        </li>
+    
+        <li class="abc"><a  href='/browse/category/6'><span>营养保健</span></a>
+        <ul>
+              
+        </ul>
+        </li>
+    
+        <li class="abc"><a  href='/browse/category/7'><span>运动户外</span></a>
+        <ul>
+              
+        </ul>
+        </li>
+    
+
+
+
+                        
+                    </ul>
+                    <div class="left-nav">
+                        <div class="pro-menu">
+                            <div class="menu-inner">
+                                
+        <input name="ProductDetails$ctl00$_$Common_CategoriesWithWindow1$_$recordsone$ctl00$hidMainCategoryId" type="hidden" id="ProductDetails_ctl00___Common_CategoriesWithWindow1___recordsone_ctl00_hidMainCategoryId" value="1" />
+        <div class="cat-01" id='twoCategory_1'>
+            <dl class="menu01">
+                <dt>
+                    <span>
+                        <img class="size" src="" />
+                    </span><a href='/browse/category/1'>母婴专区</a>
+                </dt>
+                <dd>
+                    
+                            <a href='/browse/category/8'>尿裤湿巾</a>
+                        
+                            <a href='/browse/category/19'>婴儿用品</a>
+                        
+                            <a href='/browse/category/26'>品牌奶粉</a>
+                        
+                            <a href='/browse/category/30'>营养辅食</a>
+                        
+                            <a href='/browse/category/39'>阶段奶粉</a>
+                        
+                </dd>
+            </dl>
+            <div class="nav-hover">
+                <div class="T-menu01">
+                    <div class="L-menu">
+                        
+                                <input name="ProductDetails$ctl00$_$Common_CategoriesWithWindow1$_$recordsone$ctl00$recordstwo$ctl00$hidTwoCategoryId" type="hidden" id="ProductDetails_ctl00___Common_CategoriesWithWindow1___recordsone_ctl00_recordstwo_ctl00_hidTwoCategoryId" value="8" />
+                                <div>
+                                    <h4>
+                                        <div><a href='/browse/category/8'>尿裤湿巾</a></div>
+                                    </h4>
+                                    <span>
+                                        
+                                                <a href='/browse/category/9'>NB</a>
+                                            
+                                                <a href='/browse/category/10'>S</a>
+                                            
+                                                <a href='/browse/category/11'>M</a>
+                                            
+                                                <a href='/browse/category/12'>L</a>
+                                            
+                                                <a href='/browse/category/13'>XL</a>
+                                            
+                                                <a href='/browse/category/14'>XXL</a>
+                                            
+                                                <a href='/browse/category/15'>拉拉裤</a>
+                                            
+                                                <a href='/browse/category/16'>花王</a>
+                                            
+                                                <a href='/browse/category/17'>大王</a>
+                                            
+                                                <a href='/browse/category/18'>尤妮佳</a>
+                                            
+                                    </span>
+                                </div>
+                            
+                                <input name="ProductDetails$ctl00$_$Common_CategoriesWithWindow1$_$recordsone$ctl00$recordstwo$ctl01$hidTwoCategoryId" type="hidden" id="ProductDetails_ctl00___Common_CategoriesWithWindow1___recordsone_ctl00_recordstwo_ctl01_hidTwoCategoryId" value="19" />
+                                <div>
+                                    <h4>
+                                        <div><a href='/browse/category/19'>婴儿用品</a></div>
+                                    </h4>
+                                    <span>
+                                        
+                                                <a href='/browse/category/20'>宝宝小药</a>
+                                            
+                                                <a href='/browse/category/21'>洗漱护肤</a>
+                                            
+                                                <a href='/browse/category/22'>喂养工具</a>
+                                            
+                                                <a href='/browse/category/23'>宝宝出行</a>
+                                            
+                                                <a href='/browse/category/24'>清洁消毒</a>
+                                            
+                                                <a href='/browse/category/25'>益智玩具</a>
+                                            
+                                    </span>
+                                </div>
+                            
+                                <input name="ProductDetails$ctl00$_$Common_CategoriesWithWindow1$_$recordsone$ctl00$recordstwo$ctl02$hidTwoCategoryId" type="hidden" id="ProductDetails_ctl00___Common_CategoriesWithWindow1___recordsone_ctl00_recordstwo_ctl02_hidTwoCategoryId" value="26" />
+                                <div>
+                                    <h4>
+                                        <div><a href='/browse/category/26'>品牌奶粉</a></div>
+                                    </h4>
+                                    <span>
+                                        
+                                                <a href='/browse/category/27'>特福芬</a>
+                                            
+                                                <a href='/browse/category/28'>喜宝</a>
+                                            
+                                                <a href='/browse/category/29'>爱他美</a>
+                                            
+                                                <a href='/browse/category/36'>贝唯他</a>
+                                            
+                                                <a href='/browse/category/37'>雀巢BEBA</a>
+                                            
+                                                <a href='/browse/category/38'>米路米Milumil</a>
+                                            
+                                    </span>
+                                </div>
+                            
+                                <input name="ProductDetails$ctl00$_$Common_CategoriesWithWindow1$_$recordsone$ctl00$recordstwo$ctl03$hidTwoCategoryId" type="hidden" id="ProductDetails_ctl00___Common_CategoriesWithWindow1___recordsone_ctl00_recordstwo_ctl03_hidTwoCategoryId" value="30" />
+                                <div>
+                                    <h4>
+                                        <div><a href='/browse/category/30'>营养辅食</a></div>
+                                    </h4>
+                                    <span>
+                                        
+                                                <a href='/browse/category/31'>辅食泥</a>
+                                            
+                                                <a href='/browse/category/32'>米粉/米糊</a>
+                                            
+                                                <a href='/browse/category/33'>营养品</a>
+                                            
+                                                <a href='/browse/category/34'>饼干</a>
+                                            
+                                                <a href='/browse/category/35'>其他零食</a>
+                                            
+                                    </span>
+                                </div>
+                            
+                                <input name="ProductDetails$ctl00$_$Common_CategoriesWithWindow1$_$recordsone$ctl00$recordstwo$ctl04$hidTwoCategoryId" type="hidden" id="ProductDetails_ctl00___Common_CategoriesWithWindow1___recordsone_ctl00_recordstwo_ctl04_hidTwoCategoryId" value="39" />
+                                <div>
+                                    <h4>
+                                        <div><a href='/browse/category/39'>阶段奶粉</a></div>
+                                    </h4>
+                                    <span>
+                                        
+                                                <a href='/browse/category/40'>Pre段</a>
+                                            
+                                                <a href='/browse/category/41'>1段</a>
+                                            
+                                                <a href='/browse/category/42'>2段</a>
+                                            
+                                                <a href='/browse/category/43'>3段</a>
+                                            
+                                                <a href='/browse/category/44'>4段</a>
+                                            
+                                                <a href='/browse/category/45'>1+段</a>
+                                            
+                                                <a href='/browse/category/46'>2+段</a>
+                                            
+                                    </span>
+                                </div>
+                            
+                    </div>
+                    <span class="brand" >
+                        <h5 style="display: none;">品牌推荐：<b><a href='/Brand'>更多品牌>></a></b></h5>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+    
+        <input name="ProductDetails$ctl00$_$Common_CategoriesWithWindow1$_$recordsone$ctl01$hidMainCategoryId" type="hidden" id="ProductDetails_ctl00___Common_CategoriesWithWindow1___recordsone_ctl01_hidMainCategoryId" value="2" />
+        <div class="cat-01" id='twoCategory_2'>
+            <dl class="menu01">
+                <dt>
+                    <span>
+                        <img class="size" src="" />
+                    </span><a href='/browse/category/2'>美妆个护</a>
+                </dt>
+                <dd>
+                    
+                            <a href='/browse/category/47'>香水彩妆</a>
+                        
+                            <a href='/browse/category/48'>面部护肤</a>
+                        
+                            <a href='/browse/category/49'>身体护理</a>
+                        
+                            <a href='/browse/category/50'>口腔护理</a>
+                        
+                            <a href='/browse/category/51'>女性护理</a>
+                        
+                </dd>
+            </dl>
+            <div class="nav-hover">
+                <div class="T-menu01">
+                    <div class="L-menu">
+                        
+                                <input name="ProductDetails$ctl00$_$Common_CategoriesWithWindow1$_$recordsone$ctl01$recordstwo$ctl00$hidTwoCategoryId" type="hidden" id="ProductDetails_ctl00___Common_CategoriesWithWindow1___recordsone_ctl01_recordstwo_ctl00_hidTwoCategoryId" value="47" />
+                                <div>
+                                    <h4>
+                                        <div><a href='/browse/category/47'>香水彩妆</a></div>
+                                    </h4>
+                                    <span>
+                                        
+                                                <a href='/browse/category/52'>口红</a>
+                                            
+                                                <a href='/browse/category/53'>眼线</a>
+                                            
+                                                <a href='/browse/category/54'>遮瑕膏（液）</a>
+                                            
+                                                <a href='/browse/category/55'>腮红</a>
+                                            
+                                                <a href='/browse/category/56'>粉底</a>
+                                            
+                                                <a href='/browse/category/57'>眼影</a>
+                                            
+                                                <a href='/browse/category/58'>BB霜</a>
+                                            
+                                    </span>
+                                </div>
+                            
+                                <input name="ProductDetails$ctl00$_$Common_CategoriesWithWindow1$_$recordsone$ctl01$recordstwo$ctl01$hidTwoCategoryId" type="hidden" id="ProductDetails_ctl00___Common_CategoriesWithWindow1___recordsone_ctl01_recordstwo_ctl01_hidTwoCategoryId" value="48" />
+                                <div>
+                                    <h4>
+                                        <div><a href='/browse/category/48'>面部护肤</a></div>
+                                    </h4>
+                                    <span>
+                                        
+                                                <a href='/browse/category/59'>面膜</a>
+                                            
+                                                <a href='/browse/category/60'>洁面</a>
+                                            
+                                                <a href='/browse/category/61'>面霜</a>
+                                            
+                                                <a href='/browse/category/62'>精华</a>
+                                            
+                                                <a href='/browse/category/63'>化妆水</a>
+                                            
+                                                <a href='/browse/category/64'>眼霜</a>
+                                            
+                                                <a href='/browse/category/65'>润唇膏</a>
+                                            
+                                                <a href='/browse/category/66'>其他</a>
+                                            
+                                    </span>
+                                </div>
+                            
+                                <input name="ProductDetails$ctl00$_$Common_CategoriesWithWindow1$_$recordsone$ctl01$recordstwo$ctl02$hidTwoCategoryId" type="hidden" id="ProductDetails_ctl00___Common_CategoriesWithWindow1___recordsone_ctl01_recordstwo_ctl02_hidTwoCategoryId" value="49" />
+                                <div>
+                                    <h4>
+                                        <div><a href='/browse/category/49'>身体护理</a></div>
+                                    </h4>
+                                    <span>
+                                        
+                                                <a href='/browse/category/67'>护手霜</a>
+                                            
+                                                <a href='/browse/category/68'>沐浴乳</a>
+                                            
+                                                <a href='/browse/category/69'>身体乳</a>
+                                            
+                                    </span>
+                                </div>
+                            
+                                <input name="ProductDetails$ctl00$_$Common_CategoriesWithWindow1$_$recordsone$ctl01$recordstwo$ctl03$hidTwoCategoryId" type="hidden" id="ProductDetails_ctl00___Common_CategoriesWithWindow1___recordsone_ctl01_recordstwo_ctl03_hidTwoCategoryId" value="50" />
+                                <div>
+                                    <h4>
+                                        <div><a href='/browse/category/50'>口腔护理</a></div>
+                                    </h4>
+                                    <span>
+                                        
+                                                <a href='/browse/category/70'>牙刷</a>
+                                            
+                                                <a href='/browse/category/71'>牙膏</a>
+                                            
+                                                <a href='/browse/category/72'>替换物</a>
+                                            
+                                                <a href='/browse/category/73'>漱口水</a>
+                                            
+                                                <a href='/browse/category/74'>口罩</a>
+                                            
+                                    </span>
+                                </div>
+                            
+                                <input name="ProductDetails$ctl00$_$Common_CategoriesWithWindow1$_$recordsone$ctl01$recordstwo$ctl04$hidTwoCategoryId" type="hidden" id="ProductDetails_ctl00___Common_CategoriesWithWindow1___recordsone_ctl01_recordstwo_ctl04_hidTwoCategoryId" value="51" />
+                                <div>
+                                    <h4>
+                                        <div><a href='/browse/category/51'>女性护理</a></div>
+                                    </h4>
+                                    <span>
+                                        
+                                                <a href='/browse/category/75'>卫生巾</a>
+                                            
+                                                <a href='/browse/category/76'>Facelle</a>
+                                            
+                                                <a href='/browse/category/77'>Jessa</a>
+                                            
+                                    </span>
+                                </div>
+                            
+                    </div>
+                    <span class="brand" >
+                        <h5 style="display: none;">品牌推荐：<b><a href='/Brand'>更多品牌>></a></b></h5>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+    
+        <input name="ProductDetails$ctl00$_$Common_CategoriesWithWindow1$_$recordsone$ctl02$hidMainCategoryId" type="hidden" id="ProductDetails_ctl00___Common_CategoriesWithWindow1___recordsone_ctl02_hidMainCategoryId" value="3" />
+        <div class="cat-01" id='twoCategory_3'>
+            <dl class="menu01">
+                <dt>
+                    <span>
+                        <img class="size" src="" />
+                    </span><a href='/browse/category/3'>数码家电</a>
+                </dt>
+                <dd>
+                    
+                </dd>
+            </dl>
+            <div class="nav-hover">
+                <div class="T-menu01">
+                    <div class="L-menu">
+                        
+                    </div>
+                    <span class="brand" >
+                        <h5 style="display: none;">品牌推荐：<b><a href='/Brand'>更多品牌>></a></b></h5>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+    
+        <input name="ProductDetails$ctl00$_$Common_CategoriesWithWindow1$_$recordsone$ctl03$hidMainCategoryId" type="hidden" id="ProductDetails_ctl00___Common_CategoriesWithWindow1___recordsone_ctl03_hidMainCategoryId" value="4" />
+        <div class="cat-01" id='twoCategory_4'>
+            <dl class="menu01">
+                <dt>
+                    <span>
+                        <img class="size" src="" />
+                    </span><a href='/browse/category/4'>家居日用</a>
+                </dt>
+                <dd>
+                    
+                </dd>
+            </dl>
+            <div class="nav-hover">
+                <div class="T-menu01">
+                    <div class="L-menu">
+                        
+                    </div>
+                    <span class="brand" >
+                        <h5 style="display: none;">品牌推荐：<b><a href='/Brand'>更多品牌>></a></b></h5>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+    
+        <input name="ProductDetails$ctl00$_$Common_CategoriesWithWindow1$_$recordsone$ctl04$hidMainCategoryId" type="hidden" id="ProductDetails_ctl00___Common_CategoriesWithWindow1___recordsone_ctl04_hidMainCategoryId" value="5" />
+        <div class="cat-01" id='twoCategory_5'>
+            <dl class="menu01">
+                <dt>
+                    <span>
+                        <img class="size" src="" />
+                    </span><a href='/browse/category/5'>环球美食</a>
+                </dt>
+                <dd>
+                    
+                </dd>
+            </dl>
+            <div class="nav-hover">
+                <div class="T-menu01">
+                    <div class="L-menu">
+                        
+                    </div>
+                    <span class="brand" >
+                        <h5 style="display: none;">品牌推荐：<b><a href='/Brand'>更多品牌>></a></b></h5>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+    
+        <input name="ProductDetails$ctl00$_$Common_CategoriesWithWindow1$_$recordsone$ctl05$hidMainCategoryId" type="hidden" id="ProductDetails_ctl00___Common_CategoriesWithWindow1___recordsone_ctl05_hidMainCategoryId" value="6" />
+        <div class="cat-01" id='twoCategory_6'>
+            <dl class="menu01">
+                <dt>
+                    <span>
+                        <img class="size" src="" />
+                    </span><a href='/browse/category/6'>营养保健</a>
+                </dt>
+                <dd>
+                    
+                </dd>
+            </dl>
+            <div class="nav-hover">
+                <div class="T-menu01">
+                    <div class="L-menu">
+                        
+                    </div>
+                    <span class="brand" >
+                        <h5 style="display: none;">品牌推荐：<b><a href='/Brand'>更多品牌>></a></b></h5>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+    
+        <input name="ProductDetails$ctl00$_$Common_CategoriesWithWindow1$_$recordsone$ctl06$hidMainCategoryId" type="hidden" id="ProductDetails_ctl00___Common_CategoriesWithWindow1___recordsone_ctl06_hidMainCategoryId" value="7" />
+        <div class="cat-01" id='twoCategory_7'>
+            <dl class="menu01">
+                <dt>
+                    <span>
+                        <img class="size" src="" />
+                    </span><a href='/browse/category/7'>运动户外</a>
+                </dt>
+                <dd>
+                    
+                </dd>
+            </dl>
+            <div class="nav-hover">
+                <div class="T-menu01">
+                    <div class="L-menu">
+                        
+                    </div>
+                    <span class="brand" >
+                        <h5 style="display: none;">品牌推荐：<b><a href='/Brand'>更多品牌>></a></b></h5>
+                        
+                    </span>
+                    
+                </div>
+            </div>
+        </div>
+    
+
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <script>
+        var currenturl = window.location.pathname;
+        currenturl = currenturl.toLowerCase();
+        var waittime;
+        if ((currenturl != "/" && currenturl != null && currenturl.indexOf("default.aspx") == -1 && currenturl.indexOf("default") == -1 && currenturl.indexOf("desig_templete.aspx?skintemp=default") == -1) ||
+            ((currenturl == "/" || currenturl == null || currenturl.indexOf("default.aspx") >= 0 || currenturl.indexOf("default") >= 0 || currenturl.indexOf("desig_templete.aspx?skintemp=default") >= 0) && homePageTopicId > 0)
+            ) {
+            $(".left-nav").css({ "display": "none" });
+            var height = $(".top-nav .side-nav").height();
+            $(".top-nav .side-nav").css("height", "auto");
+            $(".side-nav .title").on("mouseenter", function () {
+                $(".left-nav").css({ "display": "block" });
+            }).on("mouseleave", function () {
+                setTimeout(function () {
+                    if (!$(".left-nav").hasClass("left-nav01")) {
+                        $(".left-nav").css({ "display": "none" });
+                    }
+                }, 100);
+            });
+
+
+            $(".pro-menu").hover(function () {
+                $(".left-nav").addClass("left-nav01");
+                $(".left-nav").css({ "display": "block" });
+
+            }, function () {
+                $(".left-nav").removeClass("left-nav01");
+                $(".left-nav").css("display", "none");
+            });
+        }
+
+
+        $(document).ready(function () {
+            $('.dialog_title_r').click(function () {
+                $('.login_tan').hide();
+                $('.modal_qt').hide();
+            })
+            var hidIsLogin = $("#hidIsLogin");
+            if (hidIsLogin.val() == "1") {
+                $("#liLinkLogin").addClass("fore3");
+            } else {
+                $("#liLinkLogin").removeClass("fore3");
+            }
+        });
+
+    </script>
+
+  
+
+<!--右侧贴边导航quick_links.js控制-->
+
+<div class="J-global-toolbar">
+    <div class="toolbar-wrap J-wrap">
+        <div class="toolbar">
+            <div class="toolbar-panels J-panel">
+
+                <div style="visibility: hidden;" class="J-content toolbar-panel tbar-panel-history toolbar-animate-in">
+                    <h3 class="tbar-panel-header J-panel-header">
+                        <em class="title"><a href="/ShoppingCart.aspx" target="_blank">可领用优惠券</a></em>
+
+                    </h3>
+                    <div class="tbar-panel-main">
+                        <div class="tbar-panel-content J-panel-content">
+                            <div class="jt-history-wrap">
+                                <ul></ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tbar-panel-footer J-panel-footer"></div>
+                </div>
+            </div>
+
+            <div class="toolbar-header"></div>
+
+            <div class="toolbar-tabs J-tab">
+                <div class="toolbar-tab tbar-tab-cart1" id="shopCart">
+                    <a href="/user/UserDefault.aspx">
+                        <i class="tab-ico">
+                            <img src="/templates/pccommon/images/new/icon_03.png" /></i>
+                        <em class="tab-text ">用户中心</em>
+                    </a>
+                </div>
+                <div class=" toolbar-tab tbar-tab-follow1">
+                    <a href="/ShoppingCart.aspx" target="_blank">
+                        <i class="tab-ico">
+                            <img src="/templates/pccommon/images/new/icon_06.png" /></i>
+                        <em class="tab-text">购物车</em>
+                    </a>
+                </div>
+                <div class=" toolbar-tab tbar-tab-history" onclick="loadCoupons();">
+                    <i class="tab-ico">
+                        <img src="/templates/pccommon/images/new/icon_08.png" /></i>
+                    <em class="tab-text coupon2">优惠券</em>
+
+                </div>
+                
+            </div>
+
+            <div class="toolbar-footer">
+                <div class="toolbar-tab tbar-tab-top">
+                    <a id="returnTop">
+                        <i class="tab-ico  ">
+                            <img src="/templates/pccommon/images/new/jiantou.png" /></i> <em class="footer-tab-text">顶部</em> </a>
+                </div>
+            </div>
+            <div class="toolbar-mini"></div>
+        </div>
+        <div id="J-toolbar-load-hook"></div>
+    </div>
+</div>
+<div class="login_tan" id="DivLogin" style="display: none;">
+
+    <div class="dialog_title">
+        <div class="dialog_title_l"><span>您尚未登录，请登录</span></div>
+        <div class="dialog_title_r" id="imgCloseLogin"></div>
+    </div>
+    <div class="dialog_cartitem">
+        <input type="text" name="textfield" id="textfieldusername_right" placeholder="邮箱/手机号" class="login_tan_input1" />
+        <input type="password" name="textfield2" id="textfieldpassword_right" placeholder="密码" class="login_tan_input2" />
+        <div class="info">
+            <a href="/register.aspx" class="register">我要注册</a>
+            <a href="/ForgotPassword.aspx">忘记密码?</a>
+
+        </div>
+        <div class="btnbar">
+            <input type="button" name="button" id="btnLogin" value="登  录 " class="login_tan_input3" />
+        </div>
+    </div>
+</div>
+<input type="hidden" id="lockSend" value="0" />
+
+<div id="flyItem" class="fly_item">
+    <img src="/templates/pccommon/images/new/youhuiquan.png" width="37" height="22">
+</div>
+<script type="text/javascript" src="/templates/pccommon/script/parabola.js"></script>
+<script>
+</script>
+<script>
+    var isloadedCoupons = false;
+    var bg = "<div class='modal_qt'></div>";
+
+    var wantCouponId = 0;
+    // 元素以及其他一些变量
+    var eleFlyElement = document.querySelector("#flyItem"), eleShopCart = document.querySelector("#shopCart");
+    var numberItem = 0;
+    // 抛物线运动
+    var myParabola = funParabola(eleFlyElement, eleShopCart, {
+        speed: 400, //抛物线速度
+        curvature: 0.0008, //控制抛物线弧度
+        complete: function () {
+            eleFlyElement.style.visibility = "hidden";
+            //eleShopCart.querySelector("span").innerHTML = ++numberItem;
+        }
+    });
+    $(document).ready(function () {
+        //如果没有APP下载二维码，则不显示小图标
+        if ($(".coupon3").text().length == 0) {
+            $(".tab-qrcode").parent().hide();
+        }
+        $("#lockSend").val("0");
+        $('#returnTop').click(function () { $('body,html').animate({ scrollTop: 0 }, 1000) });
+        $("#btnLogin").bind("click", function () {
+            Login();
+        });
+        $("#imgCloseLogin").bind("click", function () {
+            $("#DivLogin").hide();
+            $(".modal_qt").remove();
+        });
+    });
+
+    // 加载优惠券
+    function loadCoupons() {
+        if (isloadedCoupons) return;
+        isloadedCoupons = true;
+        $('.jt-history-wrap ul').empty();
+        var currenturl = window.location.href;
+        currenturl = currenturl.toLowerCase();
+
+        var productId = '0';
+        var IsGroup = "false";
+        var IsPanicBuying = "false";
+
+        if (currenturl.indexOf('/product_detail') > -1) {
+            productId = currenturl.substring(currenturl.indexOf('product_detail') + 15).replace('.aspx', '');
+        }
+        if (currenturl.indexOf('/productdetail') > -1) {
+            productId = getParam("productId");
+        }
+        if (currenturl.indexOf('/groupbuyproductdetails') > -1) {
+            IsGroup = "true";
+            productId = getParam("groupBuyId");
+        }
+        if (currenturl.indexOf('/countdownproductsdetails') > -1) {
+            IsPanicBuying = "true";
+            productId = getParam("countDownId");
+        }
+        if (currenturl.indexOf('/groupbuyproduct') > -1) {
+            IsGroup = "true";
+        }
+        if (currenturl.indexOf('/countdownproduct') > -1) {
+            IsPanicBuying = "true";
+        }
+
+        $.ajax({
+            url: "/Handler/RegionHandler.ashx",
+            type: 'post', dataType: 'json', timeout: 1000,
+            data: { action: "ShowCoupons", productId: productId, IsGroup: IsGroup, IsPanicBuying: IsPanicBuying },
+            success: function (resultData) {
+                $('.jt-history-wrap ul').empty();
+                if (resultData.TotalRecords == 0) {
+                    $('.jt-history-wrap ul').append("<span>暂无可领取的优惠券</span>");
+
+                } else {
+                    $('.coupon2').html("优惠券可领");
+                    if (resultData.Data) {
+                        for (var i = 0; i < resultData.Data.length; i++) {
+                            $('.jt-history-wrap ul').append("<li id=\"" + resultData.Data[i].LiId + "\" class=\"" + resultData.Data[i].LiId + "\"><div class=\"top_line\"></div><div><a href=\"javascript:;\"><div class=\"price\"><em>¥</em> <b>" + resultData.Data[i].Price + "</b></div><span class=\"line\">" + resultData.Data[i].CanUseProducts + "</span><span class=\"color\">" + resultData.Data[i].OrderUseLimit + "</span><span class=\"color1\">" + resultData.Data[i].SCTime + "</span><span id=\"act-val_" + resultData.Data[i].CId + "\" class=\"act-val btnCart\" cid=\"" + resultData.Data[i].CId + "\"><em>立即领取</em></span></a></div><div class=\"bottom_line\"></div></li>");
+                        }
+                    }
+                    if (eleFlyElement && eleShopCart) {
+                        [].slice.call(document.getElementsByClassName("btnCart")).forEach(function (button) {
+                            button.addEventListener("click", function (event) {
+                                SendCoupon($(this).attr("cid"), event);
+                            });
+                        });
+                    }
+                    //获取优惠券的个数
+                    var Length = $('.jt-history-wrap ul li').length;
+                    if (Length >= 0) {
+                        $('.tbar-tab-history').addClass('tbar-tab-click-selected');
+                        $('.coupon2').addClass('tbar-tab-hover');
+                    }
+
+                    $('.top_line').first().addClass('top_line_f').removeClass('top_line');
+                    var num = 0;
+                    num = $('.bottom_line').size();
+                    if (num == 1) {
+                        $('.bottom_line').first().addClass('top_line_l').removeClass('bottom_line');
+                    }
+                    else {
+                        $('.bottom_line').last().addClass('top_line_l').removeClass('bottom_line');
+                    }
+                }
+
+            }
+        });
+    }
+
+    function SendCoupon(CouponId, event) {
+        if ($("#lockSend").val() == 0) {
+            $("#lockSend").val("1");
+            $.ajax({
+                url: "/Handler/RegionHandler.ashx",
+                type: 'post', dataType: 'json', timeout: 1000,
+                data: { action: "SendCoupons", CouponId: CouponId },
+                success: function (resultData) {
+                    $("#lockSend").val("0");
+                    if (resultData.Status == "0") {
+                        wantCouponId = CouponId;
+                        $("#DivLogin").show();
+                        $('body').append(bg);
+                    } else if (resultData.Status == "1" || resultData.Status == "2") {
+                        // 滚动大小
+                        var scrollLeft = document.documentElement.scrollLeft || document.body.scrollLeft || 0,
+                            scrollTop = document.documentElement.scrollTop || document.body.scrollTop || 0;
+                        eleFlyElement.style.left = event.clientX + scrollLeft + "px";
+                        eleFlyElement.style.top = event.clientY + scrollTop + "px";
+                        eleFlyElement.style.visibility = "visible";
+
+                        // 需要重定位
+                        myParabola.position().move();
+                        if (resultData.Status == "1")
+                            $("#act-val_" + CouponId).parents("li").remove();
+                    } else {
+                        alert(resultData.Error);
+                        $("#act-val_" + CouponId).parents('li').remove();
+                    }
+                    if ($('.jt-history-wrap ul li').length == 0)
+                        $('.jt-history-wrap ul').append("<span>暂无可领取的优惠券</span>");
+                }
+            });
+
+
+        }
+    }
+    // 登录后再获取
+    function Login() {
+
+        var username = $("#textfieldusername_right").val();
+        var password = $("#textfieldpassword_right").val();
+        var thisURL = document.URL;
+
+        if (username.length == 0 || password.length == 0) {
+            ShowMsg("请输入您的用户名和密码!", false);
+            return;
+        }
+
+        $.post("/User/Login", { username: username, password: password, action: "Common_UserLogin" },
+          function (data) {
+              if (data.Status == "Succes") {
+                  window.location.reload();
+              }
+              else {
+                  ShowMsg(data.Msg, false);
+              }
+          }, "json");
+
+    }
+
+    $(function () {
+        //如果没有APP下载二维码则不弹出
+        if ($(".coupon3").text() != "") {
+            $(".coupon3").addClass("tbar-tab-hover");
+            setTimeout(function () {
+                $(".coupon3").removeClass("tbar-tab-hover")
+            }, 10000);
+        }
+    })
+</script>
+
+
+
+
+<style>
+    .login_tan #btnAmoBuy {
+        display: none;
+    }
+
+    .category_l {
+        border: 1px solid #eeeeee;
+    }
+
+    .product_Brief b {
+        display: none;
+    }
+
+    #divSupName {
+        height: 30px;
+        background: #f5f5f5 url(/templates/pccommon/images/ic_store.png) no-repeat;
+        border: 1px solid #eeeeee;
+        background-position: 7px;
+        position: relative;
+    }
+
+        #divSupName span {
+            position: absolute;
+            top: 5px;
+            left: 36px;
+        }
+        .after-service-img{
+            float:left;
+            margin-top:10px;
+        }
+        .after-service-img img {
+            position: relative;
+            width: 50px;
+            height: 50px;
+            display: block;
+            float: left;
+            margin-right: 12px;
+            border: 3px solid #ececec;
+        }
+
+        .after-service-img img {
+            cursor: zoom-in;
+        }
+
+        .after-service-img .active {
+            border: 2px solid #f43a3e !important;
+            position: relative;
+            cursor: zoom-out;
+        }
+
+        .preview-img {
+            width: 305px;
+            clear: both;
+            overflow: hidden;
+            padding: 10px;
+            border: 1px solid #ddd;
+            position: relative;
+            left: 0;
+            float:left;
+            display: none;
+            margin: 10px 0 0 0;
+             cursor:zoom-out;
+        }
+
+            .preview-img img {
+                width: 300px;
+                height: 300px;
+            }
+    </style>
+<input name="ProductDetails$hidden_skus" type="hidden" id="hidden_skus" value="[{&quot;CostPrice&quot;:0.0000,&quot;FreezeStock&quot;:0,&quot;ImageUrl&quot;:null,&quot;MaxStock&quot;:884,&quot;MemberPrices&quot;:{},&quot;OldSalePrice&quot;:0.0,&quot;ProductId&quot;:991,&quot;SalePrice&quot;:120.0000,&quot;SKU&quot;:&quot;Tf004&quot;,&quot;SkuId&quot;:&quot;991_0&quot;,&quot;SkuItems&quot;:{},&quot;Stock&quot;:884,&quot;StoreSalePrice&quot;:0.0,&quot;StoreStock&quot;:884,&quot;ThumbnailUrl40&quot;:null,&quot;ThumbnailUrl410&quot;:null,&quot;WarningStock&quot;:0,&quot;Weight&quot;:0.0000}]" />
+<input name="ProductDetails$hidden_skuItem" type="hidden" id="hidden_skuItem" value="[]" />
+<input name="ProductDetails$hidden_productId" type="hidden" id="hidden_productId" value="991" />
+<input name="ProductDetails$hidSubMemberDeduct" type="hidden" id="hidSubMemberDeduct" />
+<input name="ProductDetails$hidShowCombinationBuy" type="hidden" id="hidShowCombinationBuy" />
+<input name="ProductDetails$hidCombinationId" type="hidden" id="hidCombinationId" />
+<input name="ProductDetails$hidSupName" type="hidden" id="hidSupName" />
+<div class="main" id="main1">
+    <script src="/utility/cloud-zoom.1.0.2.js" type="text/javascript"></script>
+
+    <span style="display:none;"> <span id="productDetails_sku">Tf004</span><input id="productDetails_sku_v" name="productDetails_sku_v" type="hidden" value="991_0" /></span>
+    <link href="/utility/cloud-zoom.css" rel="stylesheet" type="text/css" media="screen" />
+
+    <div id="divshow" class="dialog">
+        <div class="dialog_title">
+            <div class="dialog_title_l"><span>成功添加到购物车</span></div>
+            <div class="dialog_title_r"> </div>
+        </div>
+        <div class="dialog_cartitem">
+            <p>目前选购商品共<span id="spcounttype">0</span>件合计：<span><span id="sptotal">0.00</span></span>元</p>
+            <div class="btnbar">
+                <a class="btn-viewcart" href="#" target="_self">进入购物车</a>
+                <a class="btn-continue">继续购物</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="divbefore" class="dialog">
+        <div class="dialog_title">
+            <div class="dialog_title_l"> <span>添加到购物车</span></div>
+        </div>
+        <div class="dialog_cartitem">正在添加到购物车……</div>
+    </div>
+    <input name="ProductDetails$hiddenpid" type="hidden" id="hiddenpid" value="991" /> 
+    <input name="ProductDetails$txCartQuantity" type="hidden" id="txCartQuantity" /> 
+    <div id="divAlready" class="dialog">
+        <div class="dialog_title">
+            <div class="dialog_title_l">
+                <span>你已经收藏过该商品</span>
+            </div>
+            <div class="Favorite_title_r">
+            </div>
+        </div>
+        <div class="dialog_cartitem">
+            <a href="/user/favorites.aspx">查看我的收藏>></a>
+        </div>
+    </div>
+    <div id="divFavorite" class="dialogFavorite">
+        <div class="Favorite_title">
+            <div class="Favorite_title_l">
+                <span>成功加入收藏</span>
+            </div>
+            <div class="Favorite_title_r">
+            </div>
+        </div>
+        <div id="reset" class="tips">
+            <h2>
+                收藏成功！
+            </h2>
+            <p>
+                <em>
+                    您已收藏了<span id="favoriteCount">1</span>个商品， <a target="_blank" href="/User/Favorites">
+                        <font>查看我的收藏&gt;&gt;</font>
+                    </a>
+                </em>
+            </p>
+        </div>
+        <div id="attention-tags">
+            <div class="mt">
+                <h4>
+                    加标签<em>（最多可选3个）</em>
+                </h4>
+            </div>
+            <div class="mc" id="tagDiv">
+                <ul class="att-tag-list" id="tag_num"></ul>
+                <ul class="att-tag-list att-tag-list-save" id="tag_num2">
+                    <li class="att-tag-new">
+                        <input id="txttags" maxlength="10" type="text" onkeydown="javascript:if(event.keyCode==13) AppendTags();"
+                               onkeyup="return checkLength(this)" placeholder="自定义" onfocus="if (this.value==this.defaultValue){this.value=''};this.style.color='#333333'"
+                               onblur="if (this.value==''){this.value=this.defaultValue;};this.style.color='#9C9A9C'"
+                               value="自定义" class="text" style="height: 25; color: rgb(156, 154, 156);" /><span onclick="javascript:return AppendTags();">添加</span>
+                    </li>
+                </ul>
+                <div id="tishi" class="att-tag-btn">
+                    <a onclick="return SaveTags();" href="javascript:void(0);" class="att-btn-ok">确定</a>
+                    <a class="att-btn-cancal" href="javascript:void(0);" onclick="CloseFavorite();">取消</a>
+                    <span class="hl_red fl hide">最多可选不超过三个标签</span>
+                    <span class="hl_red fl hide">请至少选择1个标签</span>
+                    <span class="hl_green fl hide">设置成功</span>
+                    <span class="hl_red fl hide">请输入自定义标签名称！</span>
+                    <span class="hl_red fl hide">标签由数字、字母、汉字组成</span>
+                    <span class="hl_red fl hide">存在该标签的收藏商品，无法删除</span>
+                    <span class="hl_red fl hide">请选择要删除的收藏标签</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="login_tan" id="loginForBuy" style="display: none;">
+        <div class="dialog_title">
+            <div class="dialog_title_l"><span>您尚未登录，请登录</span></div>
+            <div class="dialog_title_r" id="imgCloseLogin"></div>
+        </div>
+        <div class="dialog_cartitem">
+            <input type="text" name="textfield" id="textfieldusername" placeholder="邮箱/手机号" class="login_tan_input1" />
+            <input type="password" name="textfield2" id="textfieldpassword" placeholder="密码" class="login_tan_input2" />
+            <div class="info">
+                <a href="/register.aspx" class="register">我要注册</a>
+                <a href="/ForgotPassword.aspx">忘记密码?</a>
+                <input id="btnAmoBuy" class="btnAmoBuy" type="button" value="匿名购买" />
+            </div>
+            <div class="btnbar">
+                <input type="button" name="button" id="btnLoginAndBuy" value="登 录 " class="login_tan_input3" />
+            </div>
+            <div class="qqalipay openlogin">
+                <span>使用合作网站账号登录商城：</span>
+                <em><a href="/OpenId/RedirectLogin.aspx?ot=hishop.plugins.openid.alipay.alipayservice"><img src="/plugins/openid/images/hishop.plugins.openid.alipay.alipayservice2.gif" alt="支付宝快捷登录" /> </a><a href="/OpenId/RedirectLogin.aspx?ot=hishop.plugins.openid.qq.qqservice"><img src="/plugins/openid/images/hishop.plugins.openid.qq.qqservice2.gif" alt="QQ共享登录" /> </a><a href="/OpenId/RedirectLogin.aspx?ot=hishop.plugins.openid.weixin.weixinservice"><img src="/plugins/openid/images/hishop.plugins.openid.weixin.weixinservice2.gif" alt="微信扫码登录" /> </a> </em>
+            </div>
+        </div>
+    </div>
+    <a name="top_name" id="top1"></a>
+    <div class="nav_info"><a href ='/browse/category/1'>母婴专区</a>>><a href ='/browse/category/39'>阶段奶粉</a>>><a href ='/browse/category/43'>3段</a>>>德国 奶粉 特福芬 T&amp;#246;fer 3段 600g</div>
+    <div class="product_intro">
+        <div class="product_preview">
+            
+<style type="text/css">
+.zoom-section{clear:both; }
+*html .zoom-section{display:inline;clear:both;}
+.zoom-desc{width:410px; padding:12px 0px; height:60px; overflow:hidden;}
+.zoom-desc p{ width:450px;  overflow:hidden; }
+.zoom-desc a{ float:left; width:60px; height:60px;  display:block; border:1px solid #eeeeee; margin-right:18px; background:#fff;}
+.zoom-desc a.hover{border:1px solid #ff5722;}
+.zoom-small-image{float:left;  width:410px; height:410px; border:1px solid #eeeeee; background:#fff;  }
+.zoom-small-image a{ height:410px; }
+.zoom-tiny-image{margin:0px;}
+.zoom-tiny-image:hover{border:1px solid #cc000;}
+</style>
+<table cellpadding="0" cellspacing="0" border="0" width="410">
+
+    <tr class="product_preview3">
+        <td>
+            <div class="zoom-section">
+                <div class="zoom-section">
+                    <div class="zoom-small-image">
+                        <a id="zoom1" class="cloud-zoom" rel="adjustX:10, adjustY:-4" title="德国 奶粉 特福芬 T&amp;amp;#246;fer 3段 600g" href="http://www.i-sunny.cn/Storage/master/product/images/201706131054208282500.jpg">
+                            <table cellspacing="0" cellpadding="0" border="0" width="100%" height="100%">
+                                <tr>
+                                    <td align="center" valign="middle">
+                                        <img id="ProductDetails_common_ProductImages___imgBig" title="Optional title display" src="http://www.i-sunny.cn/storage/master/product/thumbs410/410_201706131054208282500.jpg" style="border-width:0px;" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </a>
+                    </div>
+                    <div class="zoom-desc">
+                        <p>
+                            <a id="ProductDetails_common_ProductImages___iptPicUrl1" class="cloud-zoom-gallery" title="德国 奶粉 特福芬 T&amp;amp;#246;fer 3段 600g" rel="useZoom: 'zoom1', smallImage: 'http://www.i-sunny.cn/storage/master/product/thumbs410/410_201706131054208282500.jpg'" href="http://www.i-sunny.cn/Storage/master/product/images/201706131054208282500.jpg"><img id="ProductDetails_common_ProductImages___imgSmall1" alt="Thumbnail 1" src="http://www.i-sunny.cn/storage/master/product/thumbs60/60_201706131054208282500.jpg" style="border-width:0px;" /></a>
+                            <a id="ProductDetails_common_ProductImages___iptPicUrl2" class="cloud-zoom-gallery" title=""></a>
+                            <a id="ProductDetails_common_ProductImages___iptPicUrl3" class="cloud-zoom-gallery" title=""></a>
+                            <a id="ProductDetails_common_ProductImages___iptPicUrl4" class="cloud-zoom-gallery" title=""></a>
+                            <a id="ProductDetails_common_ProductImages___iptPicUrl5" class="cloud-zoom-gallery" title=""></a>
+                        </p>
+                    </div>
+                    </div>
+                    
+                </div>
+        </td>
+    </tr>
+    <tr>
+        <td height="10">
+        </td>
+    </tr>
+</table>
+
+
+           
+            <div class="tm-action">
+                <ul>
+                    <li class="iShare">
+                        <h2 style="float: left;">
+                            分享：
+                        </h2>
+                        <div class="bdsharebuttonbox">
+                            <a href="#" class="bds_weixin" data-cmd="weixin"></a>
+                            <a href="#" class="bds_qzone" data-cmd="qzone"></a>
+                            <a href="#" class="bds_tsina" data-cmd="tsina"></a>
+                        </div>
+                        <script src="/Utility/share/static/api/js/share.js"></script>
+                        <script>
+                    window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {}, "image": { "viewList": ["qzone", "tsina", "tqq", "renren", "weixin"], "viewText": "分享到：", "viewSize": "16" }, "selectShare": { "bdContainerClass": null, "bdSelectMiniList": ["qzone", "tsina", "tqq", "renren", "weixin"] } };
+                        </script>
+                    </li>
+                    <li class="product_btns_coll">
+                        <a id="addFavorite" href="javascript:void(0)" onclick="AddToFavorite()">收藏此商品</a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+        <div class="product_parameter">
+            <table cellpadding="0" cellspacing="0" border="0" width="530">
+                <tr>
+                    <td><div id="bfdProductTitle">德国 奶粉 特福芬 T&amp;#246;fer 3段 600g</div></td>
+                </tr>
+                <tr>
+                    <td class="introduce"> <div style="width: 530px;float: left;word-break: break-all;"></div> </td>
+                </tr>
+                <tr class="product_para_name">
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="product_para2">
+                            <div id="divmarket"><em>市场价：</em><del>￥<span id="ProductDetails_lblMarkerPrice">-</span></del></div>
+                            <div class="tm-promo-price">
+                                <div class="price">
+                                    <em style="margin-top:13px;">售&nbsp;&nbsp;&nbsp;价：</em><b>￥<span><span id="ProductDetails_lblBuyPrice">120.00</span></span></b>
+                                    <span id="ProductDetails_spdiscount" style="float:left;margin:12px;cursor:pointer;"><font style="color:#ff5722" onclick="javascript:$('#loginForBuy').show();$('body').append(bg);">请登录</font>，确认是否享受优惠</span>
+                                </div>
+                                
+                            </div>
+                            <div id="ProductDetails_divCuxiao" class="cuxiao" style="display:none;">
+                                <em>促&nbsp;&nbsp;&nbsp;销：</em>
+                                <span>
+                                    
+                                    
+                                    
+                                    
+                                </span>
+
+                            </div>
+                            <div style=" height: 1px;"></div>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="product_para3"><td>
+<div id="SetRegion" class="setregion">
+
+    <span style=" width:66px; padding-left:15px;">配送至：</span>
+    <div class="regionbox">
+ 
+        <div class="showRegion">
+            请选择配送区域
+        </div>
+         <div id="labProductFreight" class="yunfei">免运费</div>
+        
+         
+        <div class="topborder"></div>
+        <div class="regions">
+            <span id="ProductDetails_setDeliverRegion___dropRegions"><div class="address_wap"><div class="dp_border"></div><div class="dp_address"><a id="province_top" href="javascript:" class="dropdown_box"><span id="provincename" class="dropdown_selected">请选择省</span><span class="dropdown_button"></span></a><a id="city_top" href="javascript:" class="dropdown_box"><span id="cityname" class="dropdown_selected">市：</span><span class="dropdown_button"></span></a><a id="area_top" href="javascript:" class="dropdown_box"><span id="areaname" class="dropdown_selected">区/县：</span><span class="dropdown_button"></span></a><a id="street_top" href="javascript:" class="dropdown_box"><span id="streetname" class="dropdown_selected">街道</span><span class="dropdown_button"></span></a></div><div class="ap_content ap_province dp_address" id="province_floor">
+	<div class="dp_address_list province clearfix" id="province_info"> <ul id="province_select"><li><a href="javascript:;" id="select_new_province_100">浙江省</a></li><li><a href="javascript:;" id="select_new_province_213">上海</a></li><li><a href="javascript:;" id="select_new_province_236">江苏省</a></li><li><a href="javascript:;" id="select_new_province_374">安徽省</a></li><li><a href="javascript:;" id="select_new_province_516">江西省</a></li><li><a href="javascript:;" id="select_new_province_642">北京</a></li><li><a href="javascript:;" id="select_new_province_663">天津</a></li><li><a href="javascript:;" id="select_new_province_684">河北省</a></li><li><a href="javascript:;" id="select_new_province_883">山西省</a></li><li><a href="javascript:;" id="select_new_province_1026">内蒙古自治区</a></li><li><a href="javascript:;" id="select_new_province_1152">山东省</a></li><li><a href="javascript:;" id="select_new_province_1332">河南省</a></li><li><a href="javascript:;" id="select_new_province_1529">湖北省</a></li><li><a href="javascript:;" id="select_new_province_1662">湖南省</a></li><li><a href="javascript:;" id="select_new_province_1813">海南省</a></li><li><a href="javascript:;" id="select_new_province_1840">福建省</a></li><li><a href="javascript:;" id="select_new_province_1944">广东省</a></li><li><a href="javascript:;" id="select_new_province_2111">广西壮族自治区</a></li><li><a href="javascript:;" id="select_new_province_2249">辽宁省</a></li><li><a href="javascript:;" id="select_new_province_2384">吉林省</a></li><li><a href="javascript:;" id="select_new_province_2467">黑龙江省</a></li><li><a href="javascript:;" id="select_new_province_2625">新疆维吾尔自治区</a></li><li><a href="javascript:;" id="select_new_province_2753">陕西省</a></li><li><a href="javascript:;" id="select_new_province_2881">甘肃省</a></li><li><a href="javascript:;" id="select_new_province_2995">青海省</a></li><li><a href="javascript:;" id="select_new_province_3055">宁夏回族自治区</a></li><li><a href="javascript:;" id="select_new_province_3087">重庆</a></li><li><a href="javascript:;" id="select_new_province_3130">四川省</a></li><li><a href="javascript:;" id="select_new_province_3356">贵州省</a></li><li><a href="javascript:;" id="select_new_province_3464">云南省</a></li><li><a href="javascript:;" id="select_new_province_3626">西藏自治区</a></li><li><a href="javascript:;" id="select_new_province_3714">台湾省</a></li><li><a href="javascript:;" id="select_new_province_3795">香港特别行政区</a></li><li><a href="javascript:;" id="select_new_province_3799">澳门特别行政区</a></li><li><a href="javascript:;" id="select_new_province_3802">海外</a></li></ul></div>
+</div><div class="ap_content ap_city dp_address" id="city_floor">
+	<div class="dp_address_list city clearfix" id="city_info"> <ul id="city_select"></ul></div>
+</div><div class="ap_content ap_area dp_address" id="area_floor">
+	<div class="dp_address_list area clearfix" id="area_info"> <ul id="area_select"></ul></div>
+</div><div class="ap_content ap_street dp_address" id="street_floor">
+	<div class="dp_address_list street clearfix" id="street_info"> <ul id="street_select"></ul></div>
+</div></div></span><input id="regionSelectorValue" name="regionSelectorValue" value="" type="hidden" depth="0" /><input id="regionIsShift" name="regionIsShift" value="true" type="hidden" /><input id="regionSelectorName" name="regionSelectorName" value="" type="hidden" /><input id="regionSelectorNull" name="regionSelectorNull" value="-请选择-" type="hidden" /><input id="regionDisplayStreet" name="regionDisplayStreet" value="true" type="hidden" />
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function (e) {
+        $(".regionbox").mouseover(function (e) {
+            $(".showRegion").addClass("showRegion_hover");
+            var w = $(".showRegion").width() + 116;
+            $(".topborder").width(470 - w + 81);
+            $(".topborder").css("left", (w) + "px").show();
+            $(".regions").show();
+        });
+        $(".regionbox").mouseout(function (e) {
+            $(".showRegion").removeClass("showRegion_hover");
+            $(".regions").hide();
+            $(".topborder").hide();
+        });
+    });
+</script>
+</td></tr>
+
+                <tr class="product_sale"><td><span class="num">销量：<em>0</em> </span> <span>评价：<em id="spanReviewCount1">0</em> 条</span></td></tr>
+
+                <tr class="product_para_select">
+                    <td>
+                        
+                        <div class="product_para_num">
+
+                            <div class="title">数量：</div>
+                            <div class="tb-text"><span id="ProductDetails_txtBuyAmount" class="Product_input"><input class="Product_input" id="buyAmount" type="text" value="1" style="width:30px;" /><input id="oldBuyNumHidden" type="hidden" value="1" /></span></div>
+                            <div class="mui-amount-btn">
+                                <div name="spAdd" class="shopcart-minus shopcart1"> </div>
+                                <div name="spSub" class="shopcart-add shopcart1"></div>
+
+                            </div>
+
+                            <div class="amount-unit">
+                                <span style=" display:none;">￥<span><span id="productDetails_Total">120.00</span><input id="productDetails_Total_v" name="productDetails_Total_v" value="120.0000" type="hidden" /> </span></span>库存：<span stock="884" id="productDetails_Stock">884</span>
+                            </div>
+                            <input name="ProductDetails$hidIsOpenMultiStore" type="hidden" id="hidIsOpenMultiStore" value="1" /> 
+                        </div>
+                    </td>
+                </tr>
+                <tr class="product_btns_append">
+                    <td style="position:relative">
+                        <table cellpadding="0" cellspacing="0" border="0" width="530">
+                            <tr>
+                                <td colspan="3">
+                                    <ul class="Product_tg_ul">
+                                        <li class="product_btns_buy">
+                                            <input type="hidden" id="hiddenIsLogin" value="nologin" /><span id="buyButton">立即购买</span>
+                                        </li>
+                                        <li class="product_btns_shop">
+                                            <span id="addcartButton">加入购物车 </span>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="ald-inner">
+            <div class="brand_logo">
+                <a id="ProductDetails_aBrand">
+                    
+                </a>
+                <div id="divSupName">
+                    <span>
+                        
+                    </span>
+
+                </div>
+            </div>
+            
+            <div class="sever">
+                <em>服务支持：</em>
+                <span>
+                    
+                    
+                    <img id="imgCustomerService" src="/Utility/pics/customerservice.jpg" />
+                </span>
+
+            </div>
+        </div>
+    </div>
+
+    <div style="height:40px; overflow:hidden; clear:both;"></div>
+
+
+
+
+    <!-- 组合购 -->
+    <div class="combination">
+        <div class="title"><h2>组合购</h2></div>
+        <div class="con">
+            <div class="master">
+                <div class="product">
+                    <div class="pic"><img id="ProductDetails_imgMainPic" /></div>
+                    <div class="name"><a href="../#" id="ProductDetails_aMainName"></a></div>
+                    <div class="price"><label><b>￥<span id="ProductDetails_lblMainPrice" salePrice=""></span></b></label></div>
+                </div>
+            </div>
+            <div class="suits">
+                <div class="info">
+                    
+                </div>
+            </div>
+            <div class="infos">
+                <div class="total"></div>
+                <div class="info-name">
+                    <div class="new_price"><b>组合价： </b><em>¥<span id="spanCombinationPrice"></span></em></div>
+                    <div class="old_price"><b>原价：   </b><em>¥<span id="spanOldPrice"></span></em></div>
+                    <div class="buy_btn" id="buy_btn"><a href="javascript:">立即购买</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- end -->
+    <!-- 组合购弹窗-->
+    <div id="dialog_sku" class="dialog_sku">
+        <div class="dialog_title">
+            <div class="dialog_title_l">
+                <span>选择组合购商品规格</span>
+            </div>
+            <div class="sku_r"> </div>
+        </div>
+        <div class="sku_con">
+            <div class="infinite_scroll">
+
+            </div>
+        </div>
+
+        <div class="dialog_footer">
+            <div class="total">合计：<em>￥<span id="spanCombinationTotalPrice"></span></em></div>
+            <div class="btn" id="btnCombinationBuySubmit">确定</div>
+            <div class="info">（最多可购买<span id="spanCombinationBuyLimitAmount"></span>套）</div>
+            <div class="num">
+                <span class="num_minus" m="pminus" t="cp" onclick="minusCombinationAmount()"><img src="/templates/pccommon/images/new/plus_03.png"></span>
+                <input type="text" value="1" id="txtCombinationBuyAmount" class="cart_txtbuynum" onblur="changeCombinationAmount()" />
+                <span class="num_add" m="padd" t="cp" onclick="addCombinationAmount()"><img src="/templates/pccommon/images/new/plus_05.png"></span>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="/templates/pccommon/script/jquery.masonry.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var showCombinationBuy = $("#hidShowCombinationBuy").val();
+            if (showCombinationBuy != "1") {
+                $(".combination").hide();
+            }
+            else {
+                getCombinationTotalPrice();
+            }
+            if ($("#ProductDetails_lblMarkerPrice").text() == "-") {
+                $("#divmarket").hide();
+            }
+
+            $("#province_floor").show();
+
+        });
+
+        function addCombinationAmount() {
+            var amount = parseInt($("#txtCombinationBuyAmount").val());
+            var limitAmount = parseInt($("#spanCombinationBuyLimitAmount").html());
+            if (amount < limitAmount) {
+                $("#txtCombinationBuyAmount").val(amount + 1);
+                bindCombinationTotalPriceAndLimitStock();
+            }
+        }
+        function minusCombinationAmount() {
+            var amount = parseInt($("#txtCombinationBuyAmount").val());
+            if (amount > 1) {
+                $("#txtCombinationBuyAmount").val(amount - 1);
+                bindCombinationTotalPriceAndLimitStock();
+            }
+        }
+        function changeCombinationAmount() {
+            var txtAmount = $("#txtCombinationBuyAmount").val();
+            var reg = /^[0-9]*[1-9][0-9]*$/;
+            if (!reg.test(txtAmount)) {
+                alert("请输入正确的购买套数");
+                $("#txtCombinationBuyAmount").val(1);
+                return;
+            }
+            var amount = parseInt(txtAmount);
+            var limitAmount = parseInt($("#spanCombinationBuyLimitAmount").html());
+            if (amount < 1) {
+                alert("购买套数不能小于1套");
+                $("#txtCombinationBuyAmount").val(1);
+                return;
+            }
+            if (amount > limitAmount) {
+                alert("库存不足");
+                $("#txtCombinationBuyAmount").val(1);
+                return;
+            }
+        }
+        function getCombinationTotalPrice() {
+            var mainCombinationPrice = $("#ProductDetails_lblMainPrice").html();
+            var mainSalePrice = $("#ProductDetails_lblMainPrice").attr("salePrice");
+            var totalSalePrice = parseFloat(mainSalePrice);
+            var totalCombinationPrice = parseFloat(mainCombinationPrice);
+            $(".suits input[id^='combinationChk_']").each(function (i, obj) {
+                if ($(obj).checked || $(obj).is(':checked')) {
+                    var value = $(obj).val();
+                    var items = value.split('_');
+                    var minSalePrice = items[0];
+                    var minCombinationPrice = items[1];
+                    totalSalePrice = totalSalePrice + parseFloat(minSalePrice);
+                    totalCombinationPrice = totalCombinationPrice + parseFloat(minCombinationPrice);
+                }
+            });
+            $("#spanCombinationPrice").html(totalCombinationPrice.toFixed(2));
+            $("#spanOldPrice").html(totalSalePrice.toFixed(2));
+        }
+    </script>
+    <script>
+        $(function () {
+            var Pro_width = $('.suits .product').size() * $('.suits .product').width();
+            var Pro_plus = $('.suits .plus').size() * $('.suits .plus').outerWidth(true);
+            var suits_width = Pro_width + Pro_plus;
+            $('.suits .info').css('width', suits_width)
+            var bg = "<div class='modal_qt'></div>";
+            $('#buy_btn').click(function () {
+                var checkedCount = $(".suits input[id^='combinationChk_']:checked").length;
+                if (checkedCount > 0) {
+                    getCombinationSkuItemsData();
+                }
+                else {
+                    alert("请选择组合商品！");
+                }
+            })
+
+            $('.sku_r').click(function () {
+                $('.modal_qt').hide();
+                $('#dialog_sku').css('visibility', 'hidden');
+
+            })
+            $('#btnCombinationBuySubmit').click(function () {
+                combinationBuySubmit();
+            })
+        });
+
+        function combinationBuySubmit() {
+            var isAllChoose = true;
+            var skuids = "";
+            $.each($("li[id^='combination_']"), function () {
+                var skuid = $(this).attr("selectedSkuId");
+                if (skuid == "" || skuid == null || skuid == undefined) {
+                    isAllChoose = false;
+                }
+                else {
+                    if (skuids != "")
+                        skuids += ",";
+                    skuids += skuid;
+                }
+            });
+            if (!isAllChoose) {
+                alert("请选择商品规格！");
+                return;
+            }
+            //验证输入的套数
+            var buyAmount = $("#txtCombinationBuyAmount").val();
+            var reg = /^[0-9]*[1-9][0-9]*$/;
+            if (!reg.test(buyAmount)) {
+                alert("请输入正确的购买套数");
+                $("#txtCombinationBuyAmount").val(1);
+                return;
+            }
+            var amount = parseInt(buyAmount);
+            var limitAmount = parseInt($("#spanCombinationBuyLimitAmount").html());
+            if (amount < 1) {
+                alert("购买套数不能小于1套");
+                $("#txtCombinationBuyAmount").val(1);
+                return;
+            }
+            if (amount > limitAmount) {
+                alert("库存不足");
+                return;
+            }
+            var combinationId = $("#hidCombinationId").val();
+            $('.modal_qt').hide();
+            $('#dialog_sku').css('visibility', 'hidden');
+            location.href = "/SubmmitOrder.aspx?buyAmount=" + buyAmount + "&productSku=" + skuids + "&from=combinationbuy&CombinationId=" + combinationId;
+        }
+
+        // 保存当前选择的规格
+        function SelectCombinationSkus(clt) {
+            var attributeId = $(clt).attr("AttributeId");
+            var valueId = $(clt).attr("ValueId");
+            var productId = $(clt).attr("ProductId");
+            var combinationId = $("#hidCombinationId").val();
+            if ($(clt).attr("class") == "SKUSelectValueClass") {
+                $("#skuRow_" + productId + "_" + attributeId).attr("selectedValue", "");
+                $(clt).attr("class", "SKUValueClass");
+            }
+            else {
+                $("#skuRow_" + productId + "_" + attributeId).attr("selectedValue", valueId);
+                $("#skuRow_" + productId + "_" + attributeId + " .SKUSelectValueClass").attr("class", "SKUValueClass");
+                $(clt).attr("class", "SKUSelectValueClass");
+            }
+            var imgUrl = $(clt).attr("imgUrl");
+            if (imgUrl != undefined && imgUrl != null && imgUrl != "") {
+                var targetImg = $("#mainImg_" + productId);
+                if (targetImg.length > 0) {
+                    $(targetImg).attr("src", imgUrl);
+                }
+            }
+            var skuItems = null;
+            var data = {};
+            data.action = "GetCombinationSku";
+            data.ProductId = productId;
+            data.AttributeId = attributeId;
+            data.ValueId = valueId;
+            data.CombinationId = combinationId;
+            $.ajax({
+                url: "../API/CombinationBuyHandler.ashx",
+                type: 'post', dataType: 'json', timeout: 10000,
+                data: data,
+                success: function (resultData) {
+                    skuItems = resultData;
+                    $.each($("#combination_" + productId + " dd input,#combination_" + productId + " dd img"), function (index, item) {
+                        var currentPid = $(this).attr("AttributeId");
+                        var currentVid = $(this).attr("ValueId");
+                        var isBind = false;
+                        $.each($(resultData), function () {
+                            if (currentPid == this.AttributeId && currentVid == this.ValueId) {
+                                isBind = true;
+                            }
+                        });
+                        if (isBind) {
+                            if ($(item).attr("class") == "SKUUNSelectValueClass") {
+                                $(item).attr("class", "SKUValueClass");
+                            }
+                            $(item).attr("disabled", false);
+                        }
+                        else {
+                            $(item).attr("class", "SKUUNSelectValueClass");
+                            $(item).attr("disabled", true);
+                        }
+                    });
+                    if (IsCombinationAllSelected(productId)) {
+                        if (skuItems != null) {
+                            var skuRecord = eval(skuItems);
+                            for (var i = 0; i < skuRecord.length; i++) {
+                                var isMach = true;
+                                var mskuid = skuRecord[i].SkuId;
+                                mskuid = "_" + mskuid + "_";
+                                $.each($("dl[id^='skuRow_" + productId + "']"), function () {
+                                    var vid = $(this).attr("selectedValue");
+                                    if (mskuid.indexOf("_" + vid + "_") == -1) {
+                                        isMach = false;
+                                    }
+                                });
+                                if (isMach) {
+                                    var selectedSkuId = skuRecord[i].SkuId;
+                                    $("#combinationBuySale_" + productId).html(skuRecord[i].CombinationPrice);
+                                    $("#comStock_" + productId).html(skuRecord[i].Stock);
+                                    $("#combination_" + productId).attr("selectedSkuId", selectedSkuId);
+                                    bindCombinationTotalPriceAndLimitStock();
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    else {
+                        $("#combination_" + productId).attr("selectedSkuId", "");
+                    }
+                }
+            });
+        }
+        // 是否所有规格都已选
+        function IsCombinationAllSelected(pid) {
+            var allSelected = true;
+            $.each($("dl[id^='skuRow_" + pid + "']"), function () {
+                if ($(this).attr("selectedValue") == "") {
+                    allSelected = false;
+                }
+            });
+            return allSelected;
+        }
+        //计算并绑定总价和最大购买套数
+        function bindCombinationTotalPriceAndLimitStock() {
+            var total = 0;
+            var minStock = 0;
+            var count = 0;
+            $.each($("span[id^='combinationBuySale_']"), function () {
+                var p = $(this).html();
+                if (p != "" && p != null && p != undefined) {
+                    total += parseFloat(p);
+                }
+            });
+            $.each($("span[id^='comStock_']"), function () {
+                var s = $(this).html();
+                if (s != "" && s != null && s != undefined) {
+                    var stock = parseFloat(s);
+                    if (count == 0 || stock < minStock) {
+                        minStock = stock;
+                    }
+                    count++;
+                }
+            });
+
+            $("#spanCombinationBuyLimitAmount").html(minStock);
+            var amount = parseInt($("#txtCombinationBuyAmount").val());
+            $("#spanCombinationTotalPrice").html((total * amount).toFixed(2));
+        }
+        //获取规格数据
+        function getCombinationSkuItemsData() {
+            var combinationId = $("#hidCombinationId").val();
+            var mainProductId = $("#hidden_productId").val();
+            var productIds = mainProductId;
+            $(".suits input[id^='combinationChk_']:checked").each(function (i, obj) {
+                var s = $(obj).attr("id");
+                var pid = s.substring(15);
+                productIds += "," + pid;
+            });
+            $.post('../API/CombinationBuyHandler.ashx?action=GetProductAttrList&ProductIds=' + productIds + "&CombinationId=" + combinationId, function (result) {
+                if (eval(result).error == "noLogin") {
+                    $("#loginForBuy").show();
+                    $("#btnAmoBuy").hide();
+                    $("body").append(bg);
+                } else {
+                    var items = eval(result);
+                    if (items.length > 0) {
+                        bindCombinationSkuHtml(items, mainProductId);
+                        var otherCount = $("div[id^='comDel_']").length;
+                        if (otherCount == 1) {
+                            $("div[id^='comDel_']").css("background", "url(../templates/pccommon/images/new/disable.png) no-repeat");
+                            $("div[id^='comDel_']").attr("onclick", "");
+                        }
+                        $('body').append(bg);
+                        $('#dialog_sku').css('visibility', 'visible');
+                    }
+                }
+            });
+
+        }
+        //根据获取的规格数据，生成绑定页面
+        function bindCombinationSkuHtml(items, mainProductId) {
+            $(".infinite_scroll").html("");
+            var h = "<ul id='combinationSkuList'></ul>"
+            $(".infinite_scroll").append(h);
+            for (var i = 0; i < items.length; i++) {
+                var obj = new Array();
+                var k = items[i];
+                obj.push(String.format('<li class="masonry_brick" id="combination_{0}" selectedSkuId="{1}">', k.ProductId, k.SingleSkuId));
+                obj.push(String.format('<div class="pic"><img id="mainImg_{0}" src="{1}" style="width:100px;height:100px;"></div>', k.ProductId, k.ThumbnailUrl100));
+                obj.push('<div class="tm-meta product_para_select">');
+                if (k.ProductId != mainProductId) {
+                    obj.push(String.format('<div class="delete_icon" id="comDel_{0}" onclick="delCombinationProductLi(this)"></div>', k.ProductId));
+                }
+                var details = k.details;
+                var names = "";
+                for (var j = 0; j < details.length; j++) {
+                    var item = details[j];
+                    if (names.indexOf("'" + item.AttributeName + "'") > -1) {
+                        continue;
+                    }
+                    names += ",'" + item.AttributeName + "'";
+                    obj.push('<div class="SKURowClass">');
+                    obj.push(String.format('<b>{0}：</b>', item.AttributeName));
+                    obj.push(String.format('<dl id="skuRow_{0}_{1}" selectedValue="">', k.ProductId, item.AttributeId));
+                    var attributeValues = "";
+                    for (var m = 0; m < details.length; m++) {
+                        var valueItem = details[m];
+                        if (item.AttributeName == valueItem.AttributeName && attributeValues.indexOf("'" + valueItem.ValueStr + "'") > -1) {
+                            continue;
+                        }
+                        if (item.AttributeName == valueItem.AttributeName) {
+                            if (valueItem.UseAttributeImage && valueItem.ImageUrl != "") {
+                                obj.push(String.format('<dd><a href="#"><img class="SKUValueClass" id="skuValueId_{0}_{1}" AttributeId="{0}" ValueId="{1}" imgUrl="{4}" src="{2}" ProductId="{3}" onclick="SelectCombinationSkus(this)" /></a></dd>', item.AttributeId, valueItem.ValueId, valueItem.ThumbnailUrl40, k.ProductId, valueItem.ThumbnailUrl410));
+                            }
+                            else {
+                                obj.push(String.format('<dd><input class="SKUValueClass" type="button" id="skuValueId_{0}_{1}" AttributeId="{0}" ValueId="{1}" value="{2}" ProductId="{3}" onclick="SelectCombinationSkus(this)" /></dd>', item.AttributeId, valueItem.ValueId, valueItem.ValueStr, k.ProductId));
+                            }
+                        }
+                        attributeValues += ",'" + valueItem.ValueStr + "'";
+                    }
+                    obj.push('</dl>');
+                    obj.push('</div>');
+                }
+                obj.push(String.format('<div class="tm-price"><em>售价：</em><b> ¥ <span id="combinationBuySale_{0}">{1}</span></b></div>', k.ProductId, k.MinCombinationPrice));
+                obj.push(String.format('<div class="tm-stock"><em>库存：</em><b><span id="comStock_{0}">{1}</span></b></div>', k.ProductId, k.AllStock));
+                obj.push('</div>');
+                obj.push('</li>');
+                if (k.ProductId == mainProductId) {
+                    $("#combinationSkuList").prepend(obj.join(""));
+                }
+                else {
+                    $("#combinationSkuList").append(obj.join(""));
+                }
+            }
+            $('#combinationSkuList').masonry({
+                itemSelector: '.masonry_brick',
+                columnWidth: 480,
+                gutterWidth: 16
+            });
+
+
+            bindCombinationTotalPriceAndLimitStock();
+
+        }
+        function delCombinationProductLi(obj) {
+            var did = $(obj).attr("id");
+            var productid = did.substring(7);
+            $("#combination_" + productid).remove();
+            var otherCount = $("div[id^='comDel_']").length;
+            if (otherCount == 1) {
+                $("div[id^='comDel_']").css("background", "url(../templates/pccommon/images/new/disable.png) no-repeat");
+                $("div[id^='comDel_']").attr("onclick", "");
+            }
+            $('#combinationSkuList').masonry({
+                itemSelector: '.masonry_brick',
+                columnWidth: 480,
+                gutterWidth: 16
+            });
+            bindCombinationTotalPriceAndLimitStock();
+        }
+
+    </script>
+    <div class="product_frame w1200 o-hidden">
+        <div class="category_l">
+            <div class="paihangtop ma10">热销推荐</div>
+            <div class="sale_pro"><div class="sale_top160 cssEdite" type="top" id="products_17" ><ul>
+    
+    <li class="sale_top1"><em style=" display:none;">1</em>
+        <div class="pic">
+            <a target="_blank" href="/product_detail/1000">
+                <img data-url="/Storage/master/product/thumbs160/160_201706021316473996660.jpg" alt="德国 essence防水眼线液笔 好化防晕染 1mg"></a></div>
+        <div class="info">
+           
+            <div class="name"><a target="_blank" href="/product_detail/1000">德国 essence防水眼线液笔 好化防晕染 1mg</a></div>
+             <div class="price">
+            <b><em>￥</em>252.00</b>
+            <span><em>￥</em></span>
+           
+        </div>
+            
+        </div>
+    </li>
+    
+    <li class="sale_top2"><em style=" display:none;">2</em>
+        <div class="pic">
+            <a target="_blank" href="/product_detail/1001">
+                <img data-url="/Storage/master/product/thumbs160/160_201706021327020246660.jpg" alt="德国  essence 持久炫彩眼线笔 8 色 0.28g"></a></div>
+        <div class="info">
+           
+            <div class="name"><a target="_blank" href="/product_detail/1001">德国  essence 持久炫彩眼线笔 8 色 0.28g</a></div>
+             <div class="price">
+            <b><em>￥</em>198.00</b>
+            <span><em>￥</em></span>
+           
+        </div>
+            
+        </div>
+    </li>
+    
+    
+</ul>
+
+</div></div>
+        </div>
+        <div class="category_r">
+
+            <div class="product_detail">
+                <ul class="product_nav_wrap">
+                    <li class="curr"><a>商品详情</a></li>
+                    <li><a>商品评价<em id="spanReviewCount2">0</em></a></li>
+                    <li><a>成交记录<em>0</em></a></li>
+                    <li><a>商品咨询<em>0</em></a></li>
+                </ul>
+
+                <div class="product_mc">
+                    <div class="detail-content-item">
+                        <ul>
+                            
+                            
+                        </ul>
+                    </div>
+                    <div style="height:auto;overflow:hidden;"><p>商品名称：Tf004 德国 奶粉 特福芬 Töfer 3段 600g</p><p>商品编号：Tf004</p><p>品牌：特福芬</p><center><img  data-url="http://www.i-sunny.cn/Storage/master/gallery/20170424/6362864801987864433896840.jpg" width="710" height="500"/></center><center><img  data-url="http://www.i-sunny.cn/Storage/master/gallery/20170424/6362864804562897397963403.jpg" width="710" height="500"/></center><center><img  data-url="http://www.i-sunny.cn/Storage/master/gallery/20170423/6362857250806250007950625.jpg" width="710" height="500"/></center><center><img  data-url="http://www.i-sunny.cn/Storage/master/gallery/20170423/6362857250850000009550037.jpg" width="710" height="500"/></center><center><img  data-url="http://www.i-sunny.cn/Storage/master/gallery/20170423/6362857250859375008578221.jpg" width="710" height="500"/></center><center><img  data-url="http://www.i-sunny.cn/Storage/master/gallery/20170423/6362857250878125002336417.jpg" width="710" height="500"/></center><center><img  data-url="http://www.i-sunny.cn/Storage/master/gallery/20170423/6362857250890625008607939.jpg" width="710" height="500"/></center><center><img  data-url="http://www.i-sunny.cn/Storage/master/gallery/20170423/6362857250903125005879460.jpg" width="710" height="500"/></center><center><img  data-url="http://www.i-sunny.cn/Storage/master/gallery/20170423/6362857250915625003150982.jpg" width="710" height="500"/></center><center><img  data-url="http://www.i-sunny.cn/Storage/master/gallery/20170423/6362857250926562503651749.jpg" width="710" height="500"/></center><center><img  data-url="http://www.i-sunny.cn/Storage/master/gallery/20170423/6362857250939062509923270.jpg" width="710" height="500"/></center><center><img  data-url="http://www.i-sunny.cn/Storage/master/gallery/20170423/6362857250948437508951454.jpg" width="710" height="500"/></center><center><img  data-url="http://www.i-sunny.cn/Storage/master/gallery/20170423/6362857250959375004750393.jpg" width="710" height="500"/></center><center><img  data-url="http://www.i-sunny.cn/Storage/master/gallery/20170423/6362857250978125007508590.jpg" width="710" height="500"/></center><center><img  data-url="http://www.i-sunny.cn/Storage/master/gallery/20170423/6362857250992187501550866.jpg" width="710" height="500"/></center><center><img  data-url="http://www.i-sunny.cn/Storage/master/gallery/20170423/6362857252278125002746829.jpg" width="710" height="500"/></center><center><img  data-url="http://www.i-sunny.cn/Storage/master/gallery/20170423/6362857252292187505789106.jpg" width="710" height="500"/></center><center><img  data-url="http://www.i-sunny.cn/Storage/master/gallery/20170423/6362857252307812501303965.jpg" width="710" height="500"/></center><center><img  data-url="http://www.i-sunny.cn/Storage/master/gallery/20170423/6362857252320312507575486.jpg" width="710" height="500"/></center><center><img  data-url="http://www.i-sunny.cn/Storage/master/gallery/20170423/6362857252331250008076253.jpg" width="710" height="500"/></center><center><img  data-url="http://www.i-sunny.cn/Storage/master/gallery/20170423/6362857252343750005347774.jpg" width="710" height="500"/></center><center><img  data-url="http://www.i-sunny.cn/Storage/master/gallery/20170423/6362857252357812508390051.jpg" width="710" height="500"/></center><center><img  data-url="http://www.i-sunny.cn/Storage/master/gallery/20170423/6362857252368750008890818.jpg" width="710" height="500"/></center><center><img  data-url="http://www.i-sunny.cn/Storage/master/gallery/20170423/6362857252385937501176431.jpg" width="710" height="500"/></center><center><img  data-url="http://www.i-sunny.cn/Storage/master/gallery/20170423/6362857252396875005975370.png" width="710" height="231"/></center><p><br/></p><p><br/></p></div>
+                </div>
+
+                <div class="product_mc" style="display:none">
+
+                    <div class="i-Review">
+                        <div class="rate"><strong>0<em>%</em></strong><span>好评度</span></div>
+                        <div class="percent">
+                            <dl>
+                                <dt>好评<span>(0%)</span></dt>
+                                <dd><div style="width: 0px;"></div></dd>
+                            </dl>
+                            <dl>
+                                <dt>中评<span>(0%)</span></dt>
+                                <dd><div style="width: 0px;"></div></dd>
+                            </dl>
+                            <dl>
+                                <dt>差评<span>(0%)</span></dt>
+                                <dd><div style="width:0px;"></div></dd>
+                            </dl>
+                        </div>
+                    </div>
+
+                    <div class="Review-con">
+                        <div class="wrap">
+                            <div class="tab">
+                                <ul class="tab-hd">
+                                    <li class="active">全部评价<em>（0）</em></li>
+                                    <li>好评<em>（0）</em></li>
+                                    <li>中评<em>（0）</em></li>
+                                    <li>差评<em>（0）</em></li>
+                                    <li>有图<em>（0）</em></li>
+                                </ul>
+                                <div class="tab-bd">
+                                    <div class="thisclass review0">
+                                    </div>
+                                    <div class="normal review1"></div>
+                                    <div class="normal review2"></div>
+                                    <div class="normal review3"></div>
+                                    <div class="normal review4"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product_mc" id="productSaleCountContainer" style="display:none">
+                    <div class="tab_sales">
+                        <div class="tr_head title">
+                            <div class="name">买家</div><div class="num">数量</div>
+                            <div class="size">款式和型号</div><div class="time">付款时间</div>
+                        </div>
+                        <div class="details_plzx" id="divlineItems">
+                            <!--<span class="colorF"><a id="ProductDetails_hpkProductSales" class="Product_b"></a></span>-->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product_mc" style="display:none">
+                    <!--商品咨询-->
+                    <div class="Consultations">
+                        
+                        <div class="details_plzx">
+                            <span class="colorF"><a id="ProductDetails_hpkProductConsultations" class="Product_b" href="../ProductConsultationsAndReplay.aspx?productId=991">查看全部0条咨询</a></span>
+                            <a class="Product_a" href="/ProductConsultations/991">我要咨询</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <script>
+        var productConsultationsDataLoaded = false;
+        var productReviewType1Loading = false;
+        var productReviewType2Loading = false;
+        var productReviewType3Loading = false;
+        var productReviewType4Loading = false;
+        var productReviewType5Loading = false;
+
+        //加载成交记录
+        function loadProductSaleCountData(pageSize, currentPage, productId) {
+                //productSaleCountContainer
+                //var url = "/ProductDetailsSaleRecord?productId=" + $("#hidden_productId").val();
+                //productSaleCountDataLoaded = true;
+                //$.get(url, function (data) {
+                //    $("#productSaleCountContainer").prepend(data);
+                //}, "text");
+            $.post('../API/ReviewHandler.ashx?action=LoadLineItems&PageSize=' + pageSize + '&CurrentPage=' + currentPage + '&ProductId=' + productId, function (result) {
+                var items = JSON.parse(result);
+                var totalCount = items.totalCount;
+                if (items.data.length > 0) {
+                    $("#divlineItems").html("");
+                    var userhtm = "";
+                    for (var i = 0; i < items.data.length; i++) {
+                        var n = items.data[i];
+                        userhtm += getLineItemHtml(n);
+                    }
+                    $("#divlineItems").html(userhtm);
+                    //分页
+                    var pageNum = totalCount / pageSize;
+                    if ((pageSize * parseInt(pageNum)) < totalCount) {
+                        pageNum++;
+                    }
+                    if (pageNum > 1) {
+                        var pageHtml = getLineItemPage(totalCount, parseInt(pageNum), currentPage);
+                        $("#divlineItems").append(pageHtml);
+                    }
+                }
+            });
+        }
+        var reviewPageSize = 5;
+        var lineItemPageSize = 5;
+        $(function () {
+            function tabs(tabTit, on, tabCon) {
+                $(tabTit).children().click(function () {
+                    $(this).addClass(on).siblings().removeClass(on);
+                    var index = $(tabTit).children().index(this);
+                    $(tabCon).children().eq(index).show().siblings().hide();
+                    loadReviewData(reviewPageSize, 1, $("#hidden_productId").val(), index);
+                });
+            };
+            tabs(".tab-hd", "active", ".tab-bd");
+            /*
+                        loadStatisticsData($("#hidden_productId").val());
+                        loadReviewData(reviewPageSize, 1, $("#hidden_productId").val(), 0);
+                        loadReviewData(reviewPageSize, 1, $("#hidden_productId").val(), 1);
+                        loadReviewData(reviewPageSize, 1, $("#hidden_productId").val(), 2);
+                        loadReviewData(reviewPageSize, 1, $("#hidden_productId").val(), 3);
+                        loadReviewData(reviewPageSize, 1, $("#hidden_productId").val(), 4);
+            */
+            if ($("#hidSubMemberDeduct").val() == "" || $("#hidSubMemberDeduct").val() == undefined) {
+                $("#referralMoney").hide();
+            }
+        });
+        //加载评论
+        function loadReviewData(pageSize, currentPage, productId, type) {
+            //如果是第一页已加载就直接返回，主要处理用户多次点击加载第一页
+            switch (type) {
+                case 0:
+                    if (productReviewType1Loading) return;
+                    productReviewType1Loading = true;
+                    break;
+                case 1:
+                    if (productReviewType2Loading) return;
+                    productReviewType2Loading = true;
+                    break;
+                case 2:
+                    if (productReviewType3Loading) return;
+                    productReviewType3Loading = true;
+                    break;
+                case 3:
+                    if (productReviewType4Loading) return;
+                    productReviewType4Loading = true;
+                    break;
+                case 4:
+                    if (productReviewType5Loading) return;
+                    productReviewType5Loading = true;
+                    break;
+            }
+            $.post('../API/ReviewHandler.ashx?action=LoadReview&PageSize=' + pageSize + '&CurrentPage=' + currentPage + '&ProductId=' + productId + '&type=' + type, function (result) {
+                switch (type) {
+                    case 0:
+                        productReviewType1Loading = false;
+                        break;
+                    case 1:
+                        productReviewType2Loading = false;
+                        break;
+                    case 2:
+                        productReviewType3Loading = false;
+                        break;
+                    case 3:
+                        productReviewType4Loading = false;
+                        break;
+                    case 4:
+                        productReviewType5Loading = false;
+                        break;
+                }
+
+                var items = JSON.parse(result);
+                var totalCount = items.totalCount;
+                if (type == 0) {
+                    $("#spanReviewCount1").text(totalCount);
+                    $("#spanReviewCount2").text(totalCount);
+                }
+
+                if (items.data.length > 0) {
+                    $(".review" + type).html("");
+                    var userhtm = "";
+                    for (var i = 0; i < items.data.length; i++) {
+                        var n = items.data[i];
+                        userhtm += getReviewHtml(n);
+                    }
+                    $(".review" + type).html(userhtm);
+
+                    $('input.rating').rating();
+                    //分页
+                    var pageNum = totalCount / pageSize;
+                    if ((pageSize * parseInt(pageNum)) < totalCount) {
+                        pageNum++;
+                    }
+                    if (pageNum > 1) {
+                        $(".review" + type).append(getPage(totalCount, parseInt(pageNum), currentPage, type));
+                    }
+                }
+                $('.after-service-img img').click(function () {
+                    var bigsrc = $(this).attr('src');
+                    $(this).addClass("active");
+                    $(this).siblings().removeClass("active");
+                    $(this).parents().siblings(".preview-img").children().attr("src", bigsrc);
+                    $(this).parents().siblings(".preview-img").show(300);                   
+                })
+                $(".preview-img").click(function () {
+                    $(this).hide(300);
+                })
+            });
+        }
+        //加载评论统计
+        function loadStatisticsData(productId) {
+
+            $.post('../API/ReviewHandler.ashx?action=StatisticsReview&ProductId=' + productId, function (result) {
+                var items = JSON.parse(result);
+                var reviewNum = parseInt(items.reviewNum);
+                var reviewNum1 = parseInt(items.reviewNum1);
+                var reviewNum2 = parseInt(items.reviewNum2);
+                var reviewNum3 = parseInt(items.reviewNum3);
+                var reviewNumImg = parseInt(items.reviewNumImg);
+
+                var reviewRate1 = 0;
+                var reviewRate2 = 0;
+                var reviewRate3 = 0;
+                if (reviewNum != 0) {
+                    reviewRate1 = ((reviewNum1 * 100) / (reviewNum)).toFixed(0);
+                    reviewRate2 = ((reviewNum2 * 100) / (reviewNum)).toFixed(0);
+                    reviewRate3 = ((reviewNum3 * 100) / (reviewNum)).toFixed(0);
+                }
+
+                $(".i-Review .rate strong").html(reviewRate1 + "<em>%</em>");
+                $(".i-Review .percent dl").eq(0).html("<dt>好评<span>(" + reviewRate1 + "%)</span></dt><dd><div style=\"width: " + reviewRate1 + "px;\"></div></dd>");
+                $(".i-Review .percent dl").eq(1).html("<dt>中评<span>(" + reviewRate2 + "%)</span></dt><dd><div style=\"width: " + reviewRate2 + "px;\"></div></dd>");
+                $(".i-Review .percent dl").eq(2).html("<dt>差评<span>(" + reviewRate3 + "%)</span></dt><dd><div style=\"width: " + reviewRate3 + "px;\"></div></dd>");
+
+                $(".tab-hd li").eq(0).find("em").html("(" + reviewNum + ")");
+                $(".tab-hd li").eq(1).find("em").html("(" + reviewNum1 + ")");
+                $(".tab-hd li").eq(2).find("em").html("(" + reviewNum2 + ")");
+                $(".tab-hd li").eq(3).find("em").html("(" + reviewNum3 + ")");
+                $(".tab-hd li").eq(4).find("em").html("(" + reviewNumImg + ")");
+
+                $(".product_nav_wrap li").eq(1).find("em").html(reviewNum);
+            });
+        }
+        function getReviewHtml(obj) {
+            var arr = new Array();
+            arr.push('<div class="reviewNew">');
+            arr.push('<div class="reviewNew_tx">');
+            arr.push('<img src="' + obj.Picture + '" />');
+            arr.push('<span>' + obj.UserName + '</span>');
+            arr.push('</div>');
+            arr.push('<div class="reviewNew_t">');
+            arr.push('<span><input id="input-2ba" type="number" class="rating" min="0" max="5" step="1" data-size="xs" data-stars="5" value="' + obj.Score + '" data-symbol="&#xe005;" readonly="readonly"></span>');
+            arr.push('<span>' + obj.SKUContent + '</span>');
+            arr.push('<i>发表于：' + obj.ReviewDate + '</i>');
+            arr.push('</div>');
+            arr.push('<p class="reviewInfo">' + obj.ReviewText + '</p>');
+            arr.push('<span class="after-service-img">');
+            if (obj.ImageUrl1 != null && obj.ImageUrl1 != "")
+                arr.push('<img src="' + obj.ImageUrl1 + '" style="max-height:60px;" class="" />');
+            if (obj.ImageUrl2 != null && obj.ImageUrl2 != "")
+                arr.push('<img src="' + obj.ImageUrl2 + '" style="max-height:60px;" class="" />');
+            if (obj.ImageUrl3 != null && obj.ImageUrl3 != "")
+                arr.push('<img src="' + obj.ImageUrl3 + '" style="max-height:60px;" class="" />');
+            if (obj.ImageUrl4 != null && obj.ImageUrl4 != "")
+                arr.push('<img src="' + obj.ImageUrl4 + '" style="max-height:60px;" class="" />');
+            if (obj.ImageUrl5 != null && obj.ImageUrl5 != "")
+                arr.push('<img src="' + obj.ImageUrl5 + '" style="max-height:60px;" class="" />');
+            arr.push('</span>');
+            arr.push('<div class="preview-img" style="overflow: hidden; display: none;">');
+            arr.push('<img src="">');
+            arr.push('</div>');
+            if (obj.ReplyDate != null && obj.ReplyDate != "") {
+                arr.push('<p class="Preply"><span>商家回复：</span>' + obj.ReplyText + '</p>');
+            }
+            arr.push('</div>');
+            return arr.join("");
+        }
+
+        function getLineItemHtml(obj) {
+            var arr = new Array();
+            arr.push('<div class="tr_head">');
+            arr.push('<div class="name"><img style="width:40px;border-radius:100%;" src="' + obj.Picture + '" />' + obj.UserName + '</div>');
+            arr.push('<div class="num">' + obj.Quantity + '</div>');
+            arr.push('<div class="size">' + obj.SKUContent + '&nbsp;</div>');
+            arr.push('<div class="time">' + obj.PayDate + '</div>');
+            arr.push('</div>');
+            return arr.join("");
+        }
+
+        function getPage(totalCount, pageNum, currentPage, type) {
+            var arr = new Array();
+            arr.push('<div class="page">');
+            if (currentPage > 1)
+                arr.push('<a href="javascript:loadReviewData(' + reviewPageSize + ',' + (currentPage - 1) + ',' + $("#hidden_productId").val() + ',' + type + ');" class="page-prev">上一页</a>');
+            var finallyPage = 0;
+            for (var i = 1; i <= pageNum; i++) {
+                if (i > (currentPage - 3 + ((pageNum - currentPage - 3) > 0 ? 0 : (pageNum - currentPage - 3))) && i < (currentPage + 3 - ((currentPage - 3) > 0 ? 0 : (currentPage - 3)))) {
+                    finallyPage = i;
+                    if (i == currentPage)
+                        arr.push('<a class="page-cur">' + i + '</a>');
+                    else
+                        arr.push('<a href="javascript:loadReviewData(' + reviewPageSize + ',' + i + ',' + $("#hidden_productId").val() + ',' + type + ');" >' + i + '</a>');
+                }
+            }
+            if (finallyPage < pageNum) {
+                arr.push('<a class="page-break">...</a>');
+            }
+            if (currentPage < pageNum)
+                arr.push('<a href="javascript:loadReviewData(' + reviewPageSize + ',' + (currentPage + 1) + ',' + $("#hidden_productId").val() + ',' + type + ');"  class="page-next">下一页</a>');
+
+            arr.push('<span class="page-skip">');
+            arr.push('第' + currentPage + '/' + pageNum + '页 共' + totalCount + '记录');
+            arr.push('<input type="text" id="txtGoto' + type + '" size="3" value="" class="text">页');
+            arr.push('<input type="button" onclick="javascript:btnfanye(' + type + ',' + pageNum + ');"  value="确定" class="button">');
+            arr.push('</span>');
+            arr.push('</div>');
+            return arr.join("");
+        }
+
+        function getLineItemPage(totalCount, pageNum, currentPage) {
+            var arr = new Array();
+            arr.push('<div class="page">');
+            if (currentPage > 1)
+                arr.push('<a href="javascript:loadProductSaleCountData(' + lineItemPageSize + ',' + (currentPage - 1) + ',' + $("#hidden_productId").val() + ');" class="page-prev">上一页</a>');
+            var finallyPage = 0;
+            for (var i = 1; i <= pageNum; i++) {
+                if (i > (currentPage - 3 + ((pageNum - currentPage - 3) > 0 ? 0 : (pageNum - currentPage - 3))) && i < (currentPage + 3 - ((currentPage - 3) > 0 ? 0 : (currentPage - 3)))) {
+                    finallyPage = i;
+                    if (i == currentPage)
+                        arr.push('<a class="page-cur">' + i + '</a>');
+                    else
+                        arr.push('<a href="javascript:loadProductSaleCountData(' + lineItemPageSize + ',' + i + ',' + $("#hidden_productId").val() + ');" >' + i + '</a>');
+                }
+            }
+            if (finallyPage < pageNum) {
+                arr.push('<a class="page-break">...</a>');
+            }
+            if (currentPage < pageNum)
+                arr.push('<a href="javascript:loadProductSaleCountData(' + lineItemPageSize + ',' + (currentPage + 1) + ',' + $("#hidden_productId").val() + ');"  class="page-next">下一页</a>');
+            arr.push('<span class="page-skip">');
+            arr.push('第' + currentPage + '/' + pageNum + '页 共' + totalCount + '记录');
+            arr.push('<input type="text" id="txtLineItemGoto" size="3" value="" class="text">页');
+            arr.push('<input type="button" onclick="javascript:btnLineItemfanye(' + pageNum + ');"  value="确定" class="button">');
+            arr.push('</span>');
+            arr.push('</div>');
+            return arr.join("");
+        }
+
+        function btnfanye(type, pageNum) {
+            if ($("#txtGoto" + type).val() == "")
+                alert("请输入翻页数");
+            if (isNaN($("#txtGoto" + type).val()))
+                alert("翻页数只能输入数字");
+            if (parseInt($("#txtGoto" + type).val()) > pageNum)
+                alert("翻页数不可以大于最大页数");
+
+            loadReviewData(reviewPageSize, parseInt($("#txtGoto" + type).val()), $("#hidden_productId").val(), type)
+        }
+        function btnLineItemfanye(pageNum) {
+            if ($("#txtLineItemGoto").val() == "")
+                alert("请输入翻页数");
+            if (isNaN($("#txtLineItemGoto").val()))
+                alert("翻页数只能输入数字");
+            if (parseInt($("#txtLineItemGoto").val()) > pageNum)
+                alert("翻页数不可以大于最大页数");
+
+            loadProductSaleCountData(lineItemPageSize, parseInt($("#txtLineItemGoto").val()), $("#hidden_productId").val())
+        }
+    </script>
+
+
+
+    <script type="text/javascript">
+        var number = $("#buyAmount");
+        $('div[name="spAdd"]').bind("click", function () {
+            if ($("#hidIsOpenMultiStore").val() == "0") {
+                var stock = parseInt($("#productDetails_Stock").text());
+                var num = parseInt(number.val()) + 1;
+                if (num <= stock) {
+                    number.val(num);
+                    ChangeBuyAmount();
+                }
+            } else if ($("#hidIsOpenMultiStore").val() == "1") {
+                var num = parseInt(number.val()) + 1;
+                number.val(num);
+                ChangeBuyAmount();
+            }
+        });
+        $('div[name="spSub"]').bind("click", function () {
+            var num = parseInt(number.val()) - 1;
+            if (num > 0) {
+                number.val(num);
+                ChangeBuyAmount();
+            }
+        });
+        $(".product_nav_wrap li").bind("click", function () {
+            var li_index = $(".product_nav_wrap li").index(this);
+            $(".product_mc").hide().eq(li_index).show();
+            $(this).addClass("curr").siblings().removeClass("curr");
+            switch (li_index) {
+                case 1://评论
+                    loadStatisticsData($("#hidden_productId").val());
+                    loadReviewData(reviewPageSize, 1, $("#hidden_productId").val(), 0);
+                    break;
+                case 2://成交记录
+                    //loadProductSaleCountData();
+                    loadProductSaleCountData(lineItemPageSize, 1, $("#hidden_productId").val());
+                    break;
+            }
+        });
+        $(function () {
+            if ($("div.qq span").children().length == 0)
+                $("div.qq").hide();
+        })
+    </script>
+
+    <!--评论大小图切换-->
+    <script>
+        $(function () {
+            var global_img_src = '';
+            $(document).on('click', '.after-service-img img', function () {
+                var new_src = $(this).attr("bigsrc");
+                var is_img = $(this).parents('.column2').find('.preview-img img').attr('src');
+                if (new_src != global_img_src || is_img == '') {
+                    global_img_src = new_src;
+                    $(this).addClass('active').siblings().removeClass('active');
+                    $(this).parents('.column2').children('.preview-img').show(400);
+                    var new_src = $(this).attr("bigsrc")
+                    $(this).parents('.column2').find('.preview-img img').attr('src', new_src);
+                } else {
+                    $(this).parents('.column2').children('.preview-img').hide(10);
+                    $(this).parents('.column2').find('.preview-img img').attr('src', '');
+                }
+            })
+        })
+
+    </script>
+
+    <script src="/utility/product.helper.js" type="text/javascript"></script>
+    <div class="clearboth"></div>
+    <!-- 相关商品-->
+    <div class="product_related">
+        <h2><b>相关商品</b></h2>
+        <ul>
+            <!--相关商品-->
+            
+            
+<li>
+    <div class="related_pic">
+        <a id="ProductDetails_list_Common_GoodsList_Correlative_ctl00_ctl00_ProductDetailsLink2" href="/product_detail/988" target="_blank">
+            <img data-url="/Storage/master/product/thumbs160/160_201706061130099152910.jpg" />
+        </a>
+    </div>
+    <div class="related_name">
+         <a id="ProductDetails_list_Common_GoodsList_Correlative_ctl00_ctl00_ProductDetailsLink1" href="/product_detail/988" target="_blank">德国奶粉 爱他美 Aptamil 3段 800g</a>
+    </div>
+    <div class="related_price">
+        <strong>￥<span id="ProductDetails_list_Common_GoodsList_Correlative_ctl00_ctl00_FormatedMoneyLabel2">159.00</span></strong>
+    </div>
+</li>
+
+<li>
+    <div class="related_pic">
+        <a id="ProductDetails_list_Common_GoodsList_Correlative_ctl01_ctl00_ProductDetailsLink2" href="/product_detail/989" target="_blank">
+            <img data-url="/Storage/master/product/thumbs160/160_201706061201120871660.jpg" />
+        </a>
+    </div>
+    <div class="related_name">
+         <a id="ProductDetails_list_Common_GoodsList_Correlative_ctl01_ctl00_ProductDetailsLink1" href="/product_detail/989" target="_blank">德国奶粉 喜宝 Hipp 喜宝有机益生菌3段 600g</a>
+    </div>
+    <div class="related_price">
+        <strong>￥<span id="ProductDetails_list_Common_GoodsList_Correlative_ctl01_ctl00_FormatedMoneyLabel2">124.00</span></strong>
+    </div>
+</li>
+
+<li>
+    <div class="related_pic">
+        <a id="ProductDetails_list_Common_GoodsList_Correlative_ctl02_ctl00_ProductDetailsLink2" href="/product_detail/990" target="_blank">
+            <img data-url="/Storage/master/product/thumbs160/160_201706061450120871660.jpg" />
+        </a>
+    </div>
+    <div class="related_name">
+         <a id="ProductDetails_list_Common_GoodsList_Correlative_ctl02_ctl00_ProductDetailsLink1" href="/product_detail/990" target="_blank">德国奶粉 喜宝 Hipp 有机3段 800g</a>
+    </div>
+    <div class="related_price">
+        <strong>￥<span id="ProductDetails_list_Common_GoodsList_Correlative_ctl02_ctl00_FormatedMoneyLabel2">114.00</span></strong>
+    </div>
+</li>
+
+        </ul>
+    </div>
+</div>
+
+
+<link rel="stylesheet" href="/Utility/star/star-rating.css" rev="stylesheet" type="text/css">
+<script src="/Utility/star/star-rating.js"></script>
+<script src="/Utility/star/es5-shim.js"></script>
+<link href="/Utility/hishopUpload/hishopUpload.css" rel="stylesheet" />
+<script src="/Utility/jquery.scrollLoading.min.js"></script>
+
+<script language="javascript">
+
+    var min_num = $('.cuxiao em').html();
+    if (!min_num) {
+        $('.cuxiao').hide();
+    }
+
+    $("#showQrCode").click(function (e) {
+        $("#productQrCode").show();
+    });
+
+    $("#productQrCode h2 span").click(function (e) {
+        $("#productQrCode").hide();
+    })
+    $('.j_zhankai').click(function () {
+        if ($(this).parents('.full').hasClass('hover')) {
+            $(this).parents('.full').removeClass('hover');
+        }
+        else {
+            $(this).parents('.full').addClass('hover');
+        }
+
+
+    })
+    $('#zhankaiQrCode,#icon_tel_03').mouseover(function () {
+        $("#full").addClass("hover");
+        $("#phonePriceQrCode").show();
+    })
+    $('#full').mouseleave(function () {
+        $("#full").removeClass("hover");
+        $("#phonePriceQrCode").hide();
+    })
+
+    $(window).scroll(function () {
+        setScrollLoading();
+    });
+    function setScrollLoading() {
+        $("img").scrollLoading();        
+    }
+    $(function () {
+        var strSupName = $("#hidSupName").val();
+        if (strSupName == "" || strSupName == null) {
+            $("#divSupName").css("display", "none");
+        }
+    })
+
+    $(function () {
+        //$('.after-service-img img').click(function () {
+        //    var bigsrc = $(this).attr('src');
+        //    var is_img = $(this).parents('.column2').find('.preview-img img').attr('src');
+        //    $(this).addClass("active");
+        //    $(this).siblings().removeClass("active");
+        //    $(".preview-img img").attr("src", bigsrc);
+        //    $(".preview-img").show(300);
+        //})
+        //$(".preview-img").click(function () {
+        //    $(this).hide(300);
+        //})
+
+        var product_nav_wrap = $('.product_nav_wrap').offset().top - 40;
+        $(window).scroll(function () {
+            if ($(document).scrollTop() >= product_nav_wrap) {
+                $('.product_nav_wrap').css({
+                    position: 'fixed',
+                    top: '0',
+                    borderBottom: '1px solid #ccc',
+                    boxShadow: '0 1px 3px #ccc',
+                    width: '978px',
+                    background: '#fff',
+                    "z-index": '9',
+                })
+            }
+            if ($(document).scrollTop() + $('.product_nav_wrap').height() + 40 <= product_nav_wrap) {
+                $('.product_nav_wrap').removeAttr('style');
+            }
+        });
+    })
+
+    $(document).ready(function (e) {
+        if ($("div.qqalipay em a").length == 0)
+            $("div.qqalipay").hide();
+    })
+</script>
+
+
+
+  
+<div class="footer" id="footer">
+    <div class="footer-nav">
+        
+
+<dl>
+    <dt>欢迎加盟 </dt>
+    
+            <dd>
+                <a href='/help/show/9' target="_blank" title='支持加盟'>
+                    支持加盟
+                </a>
+            </dd>
+        
+            <dd>
+                <a href='/help/show/12' target="_blank" title='发展代理'>
+                    发展代理
+                </a>
+            </dd>
+        
+</dl>
+
+
+<dl>
+    <dt>退换服务 </dt>
+    
+            <dd>
+                <a href='/help/show/2' target="_blank" title='订购方式'>
+                    订购方式
+                </a>
+            </dd>
+        
+            <dd>
+                <a href='/help/show/10' target="_blank" title='退货换货'>
+                    退货换货
+                </a>
+            </dd>
+        
+</dl>
+
+
+<dl>
+    <dt>如何支付 </dt>
+    
+            <dd>
+                <a href='/help/show/1' target="_blank" title='新手常见问题'>
+                    新手常见问题
+                </a>
+            </dd>
+        
+            <dd>
+                <a href='/help/show/3' target="_blank" title='快递查询'>
+                    快递查询
+                </a>
+            </dd>
+        
+</dl>
+
+
+<dl>
+    <dt>客服中心 </dt>
+    
+            <dd>
+                <a href='/help/show/6' target="_blank" title='联系方式'>
+                    联系方式
+                </a>
+            </dd>
+        
+            <dd>
+                <a href='/help/show/7' target="_blank" title='投诉建议'>
+                    投诉建议
+                </a>
+            </dd>
+        
+</dl>
+
+
+<dl>
+    <dt>配送信息 </dt>
+    
+            <dd>
+                <a href='/help/show/8' target="_blank" title='配送方式'>
+                    配送方式
+                </a>
+            </dd>
+        
+            <dd>
+                <a href='/help/show/11' target="_blank" title='同城配送'>
+                    同城配送
+                </a>
+            </dd>
+        
+</dl>
+
+
+<dl>
+    <dt>联系我们 </dt>
+    
+            <dd>
+                <a href='/help/show/4' target="_blank" title='公司简介'>
+                    公司简介
+                </a>
+            </dd>
+        
+            <dd>
+                <a href='/help/show/5' target="_blank" title='网站加盟'>
+                    网站加盟
+                </a>
+            </dd>
+        
+</dl>
+
+    </div>
+
+<!-- <div class="bottom">
+       <div class="footer_link">
+        
+<a href='https://www.hishop.com.cn/' target="_blank">Hishop网店系统</a>|
+    </div> -->
+	
+    <div class="Copyright">
+        <p></p><p><br/></p><p align="center"><a href="http://www.i-sunny.cn/help/show/23" target="_self" textvalue="关于海淘" _href="http://www.i-sunny.cn/help/show/23">关于海淘</a> | <a href="http://www.i-sunny.cn/help/show/24" target="_blank" _href="http://www.i-sunny.cn/help/show/24">商务合作</a> | <a href="http://www.i-sunny.cn/Helps" target="_blank" _href="http://www.i-sunny.cn/Helps">帮助中心</a> | <a href="http://www.i-sunny.cn/help/show/24" target="_blank" _href="http://www.i-sunny.cn/help/show/24">联系我们</a> | <a href="http://www.i-sunny.cn/sitemapindex.xml" target="_blank" _href="http://www.i-sunny.cn/sitemapindex.xml">网站地图</a></p><p align="center">Copyright © 2012--2017 i-sunny.cn 版权所有 | 京ICP备11003669号-1&nbsp;| 内容举报：kefu@i-sunny.cn</p>
+         
+         </div>
+    </div><!--bottom结束-->
+</div> 
+<script src="/Utility/china.js"></script>
+<script src="/Utility/jquery.cookie.js"></script>
+<script type="text/javascript">
+    var uid = 0;
+    $(document).ready(function () {
+        uid = parseInt($.cookie("uid"));
+        if (isNaN(uid)) uid = 0;
+        if (uid == 1) {
+            uid ? (run()) : (run());
+            $("#id_c").html("切换简体");
+        }
+    });
+    $(document).bind('click', function (e) {
+        var a = $(e.target).attr('id');
+        if (a == 'id_c') {
+            uid ? (run()) : (run());
+            (uid == 1) ? (uid = 0, $('#id_c').html('切换繁体')) : (uid += 1, $('#id_c').html('切换简体'));
+            $.cookie("uid", uid);
+        }
+    });
+</script>
+</body>
+</html> 
+

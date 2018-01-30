@@ -1,0 +1,241 @@
+html, body, div, p, ul, ol, li, dl, dt, dd, table, tr, td, th, caption, form, hr, h1, h2, h3, h4, h5, h6, input, img {
+  margin: 0;
+  padding: 0;
+}
+
+body,html {
+  font-family: "微软雅黑",Arial;
+  width: 100%;
+  background: #fbfbfb;
+}
+
+a {
+  text-decoration: none;
+}
+
+ul, li {
+  list-style: none;
+}
+
+img {
+  border: none;
+  display: inline-block;
+} 
+
+i,em{
+	font-style: normal;
+}
+
+/* 注册页面头部样式 */
+#headerwrap{
+	width:100%;
+	height: 118px;
+}
+
+#header{
+	width: 1100px;
+	height: 118px;
+	margin: auto;
+	padding-top: 30px;
+}
+
+#header_logo{
+	width: 1100px;
+	height: 63px;
+	/*margin-top: 30px;*/
+}
+
+#header_logo_left{
+	width: 226px;
+	height: 63px;
+	border-right: 1px solid #ccc;
+	float: left;
+}
+
+#header_logo_right{
+	font-size: 26px;
+	margin-left: 20px;
+	float: left;
+}
+
+#header_logo_right>p{
+	display: block;
+	margin-left: 20px;
+	margin-top: 5px;
+}
+
+#header_bottom{
+	height: 28px;
+	width: 1100px;
+	font-size: 16px;
+}
+
+#header_bottom>span{
+	float: right;
+}
+
+#header_bottom>span>a{
+	color: orange;
+}
+
+
+/*注册页面内容样式*/
+#sectionwrap{
+	height: 440px;
+	width: 100%;
+	background: red;
+	margin-bottom: 30px;
+	background: url(../denglu_imgs/bg.jpg);
+	background-position:center ;
+}
+
+#section{
+	height: 440px;
+	width: 1199px;
+	margin: auto;
+	position: relative;
+}
+
+#sec{
+	width: 318px;
+	height: 340px;
+	background: white;
+	position: absolute;
+	left: 750px;
+	top: 40px;
+	padding: 20px;
+}
+
+#sec_top{
+	width: 305px;
+	height: 52px;
+}
+
+#sec_top p {
+	float: left;
+	font-size: 18px;
+}
+
+#sec_top a{
+	float: right;
+	color:cornflowerblue;
+	font-size: 14px;
+}
+
+#uname{
+	width: 302px;
+	height: 40px;
+	border: 1px solid #CCCCCC;
+	margin-bottom: 20px;
+}
+
+#upwd{
+	width: 302px;
+	height: 40px;
+	border: 1px solid #CCCCCC;
+	margin-bottom: 20px;
+}
+
+#login{
+	font-size: 12px;
+	width: 305px;
+	margin-bottom:50px;
+}
+
+#login span{
+	float: left;
+}
+
+#login a{
+	float: right;
+	color: black;
+}
+
+#button{
+	width: 300px;
+	height: 40px;
+	background: #ff5500;
+	border: none;
+	margin-bottom: 20px;
+}
+
+#sec_bottom{
+	font-size: 14px;
+	color: lightgray;
+}
+
+#sec_bottom p{
+	margin-bottom: 8px;
+}
+
+
+
+
+
+
+
+
+
+/*脚部信息*/
+#footerwrap{
+	width: 100%;
+	height: 100px;
+}
+
+#footer{
+	width: 1100px;
+	margin: auto;
+}
+
+#footer_top{
+	height: 21px;
+	width: 1100px;
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+#footer_top>a{
+	font-size: 12px;
+	color: lightgray;
+	padding-right: 15px;
+	border-right: 1px solid #ccc;
+}
+
+#footer_top>a:hover{
+	color: coral;
+}
+
+#footer_center{
+	height: 30px;
+	width: 750px;
+	padding-left: 430px;
+	
+}
+
+#footer_center>ul{
+	margin: auto;
+}
+
+#footer_center>ul>li{
+	float: left;
+	height: 30px;
+}
+
+#footer_center>ul>li>a{
+	display: block;
+	color: gray;
+	font-size: 12px;
+	margin-right: 5px;
+	border-right: 1px solid #ccc;
+	padding-right: 5px;
+}
+
+#footer_center>ul>li>a:hover{
+	color: darkorange;
+}
+
+#footer_bottom{
+	font-size: 12px;
+	color: gray;
+	text-align: center;
+}

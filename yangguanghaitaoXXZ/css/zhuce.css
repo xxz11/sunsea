@@ -1,0 +1,389 @@
+html, body, div, p, ul, ol, li, dl, dt, dd, table, tr, td, th, caption, form, hr, h1, h2, h3, h4, h5, h6, input, img {
+  margin: 0;
+  padding: 0;
+}
+
+body,html {
+  font-family: "微软雅黑",Arial;
+  width: 100%;
+  background: #fbfbfb;
+}
+
+a {
+  text-decoration: none;
+}
+
+ul, li {
+  list-style: none;
+}
+
+img {
+  border: none;
+  display: inline-block;
+} 
+
+i,em{
+	font-style: normal;
+}
+
+/* 注册页面头部样式 */
+#headerwrap{
+	width:100%;
+	height: 148px;
+	border-bottom: 2px solid #fd5723;
+}
+
+#header{
+	width: 1100px;
+	height: 118px;
+	margin: auto;
+	padding-top: 30px;
+}
+
+#header_logo{
+	width: 1100px;
+	height: 63px;
+	/*margin-top: 30px;*/
+}
+
+#header_logo_left{
+	width: 226px;
+	height: 63px;
+	border-right: 1px solid #ccc;
+	float: left;
+}
+
+#header_logo_right{
+	font-size: 26px;
+	margin-left: 20px;
+	float: left;
+}
+
+#header_logo_right>p{
+	display: block;
+	margin-left: 20px;
+	margin-top: 5px;
+}
+
+#header_bottom{
+	height: 28px;
+	width: 1100px;
+	font-size: 16px;
+}
+
+#header_bottom>span{
+	float: right;
+}
+
+#header_bottom>span>a{
+	color: orange;
+}
+
+
+/*注册页面内容样式*/
+
+#sectionwrap{
+	width: 100%;
+	height: 632px;
+	padding-top:30px;
+}
+
+#section{
+	width: 880px;
+	height: 572px;
+	background: white;
+	margin: auto;
+	box-shadow: 2px 2px 3px orange;
+	padding-top: 30px;
+}
+
+#zhuce{
+	width: 800px;
+	height: 522px;
+	margin: auto;
+	padding-left: 150px;
+	/*padding-top: 50px;*/
+}
+
+#zhuce span{
+	color: #CCCCCC;
+	font-size: 14px;
+	margin-left: 20px;
+}
+#form_ema{
+	width: 600px;
+	height: 42px;
+	line-height: 42px;
+	margin-bottom: 20px;
+}
+#form_ema>i{
+	display: block;
+	width: 85px;
+	height: 40px;
+	font-size: 16px;
+	text-align: right;
+	line-height: 40px;
+	float: left;
+	color: #808080;
+}
+
+#form_ema>input{
+	width: 282px;
+	height: 38px;
+	margin-left: 15px;
+	border: 1px solid #ccc;
+}
+
+#form_pwd{
+	width: 600px;
+	height: 40px;
+	line-height: 42px;
+	margin-bottom: 20px;
+}
+#form_pwd>i{
+	display: block;
+	width: 85px;
+	height: 40px;
+	font-size: 16px;
+	text-align: right;
+	line-height: 40px;
+	float: left;
+	color: #808080;
+}
+
+#form_pwd>input{
+	width: 282px;
+	height: 38px;
+	margin-left: 15px;
+	border: 1px solid #ccc;
+}
+
+#form_qpwd{
+	width: 600px;
+	height: 40px;
+	line-height: 42px;
+}
+#form_qpwd>i{
+	display: block;
+	width: 85px;
+	height: 40px;
+	font-size: 16px;
+	text-align: right;
+	line-height: 40px;
+	float: left;
+	color: #808080;
+}
+
+#form_qpwd>input{
+	width: 282px;
+	height: 38px;
+	margin-left: 15px;
+	border: 1px solid #ccc;
+}
+
+#form_name{
+	width: 600px;
+	height: 40px;
+	line-height: 42px;
+	margin-top: 20px;
+}
+#form_name>i{
+	display: block;
+	width: 85px;
+	height: 40px;
+	font-size: 16px;
+	text-align: right;
+	line-height: 40px;
+	float: left;
+	color: #808080;
+}
+
+#form_name>input{
+	width: 282px;
+	height: 38px;
+	margin-left: 15px;
+	border: 1px solid #ccc;
+}
+
+#form_sex{
+	width: 600px;
+	height: 40px;
+	line-height: 42px;
+	margin-top: 20px;
+}
+#form_sex>i{
+	display: block;
+	width: 85px;
+	height: 40px;
+	font-size: 16px;
+	text-align: right;
+	line-height: 40px;
+	float: left;
+	color: #808080;
+	margin-right: 15px;
+}
+
+#form_day{
+	width: 600px;
+	height: 40px;
+	line-height: 42px;
+	margin-top: 20px;
+}
+#form_day>i{
+	display: block;
+	width: 85px;
+	height: 40px;
+	font-size: 16px;
+	text-align: right;
+	line-height: 40px;
+	float: left;
+	color: #808080;
+}
+
+#form_day>input{
+	width: 282px;
+	height: 38px;
+	margin-left: 15px;
+	border: 1px solid #ccc;
+}
+
+#form_yzm{
+	width: 600px;
+	height: 40px;
+	line-height: 42px;
+	margin-top: 20px;
+	
+}
+#form_yzm>i{
+	display: block;
+	width: 85px;
+	height: 40px;
+	font-size: 16px;
+	text-align: right;
+	line-height: 40px;
+	float: left;
+	color: #808080;
+	
+}
+
+#form_yzm>input{
+	float: left;
+	width: 162px;
+	height: 38px;
+	margin-left: 15px;
+	border: 1px solid #ccc;
+	margin-right: 10px;
+}
+
+#form_yzm a{
+	/*display: block;
+	float: left;*/
+	color: cornflowerblue;
+	
+}
+
+/*#iii{
+	width:120px;
+}
+
+#btn{
+	width: 60px;
+}*/
+
+#yzm{
+	width: 110px;
+	height: 38px;
+	float: left;
+	background: red;
+	margin-right: 10px;
+	text-align: center;
+	font-size: 26px;
+}
+
+#form_agree{
+	width: 600px;
+	height: 40px;
+	line-height: 42px;
+	margin-top: 10px;
+	margin-left: 100px;
+	margin-bottom: 30px;
+}
+
+#form_agree a{
+	color: darkorange;
+}
+
+#button{
+	width: 350px;
+	height: 50px;
+	background: darkorange;
+	font-size: 24px;
+	color: white;
+	border: none;
+	margin-left: 80px;
+}
+
+
+
+#footerwrap{
+	width: 100%;
+	height: 100px;
+}
+
+#footer{
+	width: 1100px;
+	margin: auto;
+}
+
+#footer_top{
+	height: 21px;
+	width: 1100px;
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+#footer_top>a{
+	font-size: 12px;
+	color: lightgray;
+	padding-right: 15px;
+	border-right: 1px solid #ccc;
+}
+
+#footer_top>a:hover{
+	color: coral;
+}
+
+#footer_center{
+	height: 30px;
+	width: 750px;
+	padding-left: 430px;
+	
+}
+
+#footer_center>ul{
+	margin: auto;
+}
+
+#footer_center>ul>li{
+	float: left;
+	height: 30px;
+}
+
+#footer_center>ul>li>a{
+	display: block;
+	color: gray;
+	font-size: 12px;
+	margin-right: 5px;
+	border-right: 1px solid #ccc;
+	padding-right: 5px;
+}
+
+#footer_center>ul>li>a:hover{
+	color: darkorange;
+}
+
+#footer_bottom{
+	font-size: 12px;
+	color: gray;
+	text-align: center;
+}
